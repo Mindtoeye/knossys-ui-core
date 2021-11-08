@@ -1,3 +1,3 @@
-import KnossysConnector from './components/KnossysConnector';
+import KnossysInfoPanel from './components/KnossysInfoPanel';
 
-export { KnossysConnector };
+export { KnossysInfoPanel };

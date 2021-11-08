@@ -1,4 +1,9 @@
 
+body {
+  font-family: Arial, Verdana;
+  font-size: 10pt;
+}
+
 .kinfopanel {
   position: fixed;
   width: 177px;
@@ -7,4 +12,10 @@
   background: #272626bd;
   border-radius: 5px;
   padding: 4px;
+  color: #d1cec8;
+}
+
+.kinfopanel p {
+  margin: 1px;
+  padding: 2px;
 }

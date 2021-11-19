@@ -1,13 +1,12 @@
 
-body {
-  font-family: Arial, Verdana;
-  font-size: 10pt;
+.knossys-dark {
+
 }
 
-.kinfopanel {
+.knossys-dark .kinfopanel {
   position: fixed;
   width: 177px;
-  height: 300px;
+  height: 170px;
   border: 1px solid #7d7c7c59;
   background: #272626bd;
   border-radius: 5px;
@@ -15,7 +14,12 @@ body {
   color: #d1cec8;
 }
 
-.kinfopanel p {
+.knossys-dark .kbottom-right {
+  right: 16px;
+  bottom: 16px;  
+}
+
+.knossys-dark .kinfopanel p {
   margin: 1px;
   padding: 2px;
 }

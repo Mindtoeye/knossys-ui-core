@@ -1,4 +1,5 @@
 clear
 rm -rf ./dist/*
-npm run build
+export NODE_OPTIONS=--openssl-legacy-provider
+npm run buildnpm
 npm publish --access=public

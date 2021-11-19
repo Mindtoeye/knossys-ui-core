@@ -6,6 +6,9 @@ html {
 body {
   margin: 0px;
   padding: 0px;
+
+  font-family: Arial, Verdana;
+  font-size: 10pt;
 }
 
 #root {

@@ -1,0 +1,67 @@
+
+.knossys-dark .klist {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-family: Arial;
+  font-size: 10pt;
+  color: #cdc9c9;
+  padding: 2px 4px 2px 4px;  
+}
+
+.klist li {
+  position: relative;
+  list-style-type: none;
+  padding-left: 0.7rem;
+  margin-bottom: 0.2rem;
+}
+
+.klist li:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 4px;
+  height: 4px;
+  /* border-width: 0 2px 2px 0; */
+  /* border-style: solid; */
+  /* border-color: #ffffff; */
+  /* transform-origin: bottom left; */
+  /* transform: rotate(45deg); */
+  border: 1px solid grey;
+  background: #545353;
+}
+
+
+
+.knossys-dark .kcheck-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-family: Arial;
+  /*background: #4c4c4c;*/
+  color: #cdc9c9;
+  padding: 2px 4px 2px 4px;   
+}
+
+.kcheck-list li {
+  position: relative;
+  list-style-type: none;
+  padding-left: 1.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.kcheck-list li:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: -5px;
+  width: 5px;
+  height: 12px;
+  border-width: 0 2px 2px 0;
+  border-style: solid;
+  border-color: #ffffff;
+  transform-origin: bottom left;
+  transform: rotate(45deg);
+}
+

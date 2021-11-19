@@ -12,4 +12,4 @@ if [ ! -d "node_modules" ]; then
 fi
 
 export NODE_OPTIONS=--openssl-legacy-provider
-npm run start
+npm run buildnpm

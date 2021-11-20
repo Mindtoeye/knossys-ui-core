@@ -9,7 +9,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-require("./styles/main.css");
+require("./styles/misc.css");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -38,74 +38,32 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 /**
  * 
  */
-var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
-  _inherits(KnossysInfoPanel, _Component);
+var KHorizontalSeparator = /*#__PURE__*/function (_Component) {
+  _inherits(KHorizontalSeparator, _Component);
 
-  var _super = _createSuper(KnossysInfoPanel);
+  var _super = _createSuper(KHorizontalSeparator);
 
-  /**
-   * 
-   */
-  function KnossysInfoPanel(props) {
-    var _this;
+  function KHorizontalSeparator() {
+    _classCallCheck(this, KHorizontalSeparator);
 
-    _classCallCheck(this, KnossysInfoPanel);
-
-    _this = _super.call(this, props);
-    _this.state = {};
-    return _this;
+    return _super.apply(this, arguments);
   }
-  /**
-   * 
-   */
 
-
-  _createClass(KnossysInfoPanel, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      console.log("componentDidMount ()");
-    }
-    /**
-     * 
-     */
-
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {}
+  _createClass(KHorizontalSeparator, [{
+    key: "render",
+    value:
     /**
      *
      */
-
-  }, {
-    key: "render",
-    value: function render() {
-      var classes = "kinfopanel";
-      var children;
-      var style;
-
-      if (this.props.style) {
-        style = this.props.style;
-      }
-
-      if (this.props.classes) {
-        classes = "kinfopanel " + this.props.classes;
-      }
-
-      if (this.props.children) {
-        children = this.props.children;
-      } else {
-        children = /*#__PURE__*/_react.default.createElement("p", null, "This is the most basic panel in Knossys. It is mainly used to build fixed-location info panels. It is not the basis for windows and dialogs. It does use the theme.");
-      }
-
+    function render() {
       return /*#__PURE__*/_react.default.createElement("div", {
-        className: classes,
-        style: style
-      }, children);
+        className: "khseparator"
+      });
     }
   }]);
 
-  return KnossysInfoPanel;
+  return KHorizontalSeparator;
 }(_react.Component);
 
-var _default = KnossysInfoPanel;
+var _default = KHorizontalSeparator;
 exports.default = _default;

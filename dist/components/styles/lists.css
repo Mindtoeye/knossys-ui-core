@@ -43,22 +43,14 @@
   padding: 2px 4px 2px 4px;   
 }
 
-
-
-
-.kcheck-list .kcheck-default {
+.kcheck-list li {
   position: relative;
   list-style-type: none;
   padding-left: 1.5rem;
   margin-bottom: 0.2rem;
-  cursor: pointer;
 }
 
-.kcheck-list .kcheck-default:hover {
-  color: white;
-}
-
-.kcheck-list .kcheck-default:before {
+.kcheck-list li:before {
   content: "";
   display: block;
   position: absolute;
@@ -73,31 +65,3 @@
   transform: rotate(45deg);
 }
 
-
-
-.kcheck-list .kcheck-checked {
-  position: relative;
-  list-style-type: none;
-  padding-left: 1.5rem;
-  margin-bottom: 0.2rem;
-  cursor: pointer;
-}
-
-.kcheck-list .kcheck-checked:hover {
-  color: white;
-}
-
-.kcheck-list .kcheck-checked:before {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0px;
-  width: 13px;
-  height: 12px;
-  border-width: 1px 1px 1px 1px;
-  border-style: solid;
-  border-color: #4a4a4a;
-  transform-origin: bottom left;
-  /* transform: rotate(45deg); */
-}

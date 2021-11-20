@@ -5,7 +5,9 @@ import KButton from './lib/components/KButton';
 import KTextInput from './lib/components/KTextInput';
 import KList from './lib/components/KList';
 import KCheckList from './lib/components/KCheckList';
+import KCheckListItem from './lib/components/KCheckListItem';
 import KHorizontalSeparator from './lib/components/KHorizontalSeparator';
+import KSelect from './lib/components/KSelect';
 
 import './Drydock.css';
 
@@ -104,7 +106,11 @@ class Drydock extends Component {
          <KList />
          <KHorizontalSeparator />
          <KCheckList />
-       </KnossysInfoPanel>       
+       </KnossysInfoPanel>
+
+       <KnossysInfoPanel style={{left: "253px", top: "244px", height: "500px"}}>
+         <KSelect style={{width: "100%"}} />
+       </KnossysInfoPanel>
 
        <KnossysInfoPanel classes="kbottom-right" />
       </div>

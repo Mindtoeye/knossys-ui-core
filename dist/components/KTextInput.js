@@ -9,7 +9,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-require("./styles/main.css");
+require("./styles/textinput.css");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -35,24 +35,29 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  * 
  */
-var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
-  _inherits(KnossysInfoPanel, _Component);
+var KTextInput = /*#__PURE__*/function (_Component) {
+  _inherits(KTextInput, _Component);
 
-  var _super = _createSuper(KnossysInfoPanel);
+  var _super = _createSuper(KTextInput);
 
   /**
    * 
    */
-  function KnossysInfoPanel(props) {
+  function KTextInput(props) {
     var _this;
 
-    _classCallCheck(this, KnossysInfoPanel);
+    _classCallCheck(this, KTextInput);
 
     _this = _super.call(this, props);
-    _this.state = {};
+    _this.state = {
+      value: props.children
+    };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
@@ -60,7 +65,7 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
    */
 
 
-  _createClass(KnossysInfoPanel, [{
+  _createClass(KTextInput, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       console.log("componentDidMount ()");
@@ -73,39 +78,72 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {}
     /**
+     * 
+     */
+
+  }, {
+    key: "handleChange",
+    value: function handleChange(event) {
+      this.setState({
+        value: event.target.value
+      });
+    }
+    /**
      *
      */
 
   }, {
     key: "render",
     value: function render() {
-      var classes = "kinfopanel";
-      var children;
+      var classes = "ktextinput ktextinput-regular";
       var style;
+
+      if (this.props.size) {
+        if (this.props.size == KTextInput.TINY) {
+          classes = "ktextinput ktextinput-tiny";
+        }
+
+        if (this.props.size == KTextInput.REGULAR) {
+          classes = "ktextinput ktextinput-regular";
+        }
+
+        if (this.props.size == KTextInput.MEDIUM) {
+          classes = "ktextinput ktextinput-medium";
+        }
+
+        if (this.props.size == KTextInput.LARGE) {
+          classes = "ktextinput ktextinput-large";
+        }
+      }
 
       if (this.props.style) {
         style = this.props.style;
       }
 
       if (this.props.classes) {
-        classes = "kinfopanel " + this.props.classes;
+        classes = classes + " " + this.props.classes;
       }
 
-      if (this.props.children) {
-        children = this.props.children;
-      } else {
-        children = /*#__PURE__*/_react.default.createElement("p", null, "This is the most basic panel in Knossys. It is mainly used to build fixed-location info panels. It is not the basis for windows and dialogs. It does use the theme.");
-      }
-
-      return /*#__PURE__*/_react.default.createElement("div", {
+      return /*#__PURE__*/_react.default.createElement("input", {
+        type: "text",
         className: classes,
-        style: style
-      }, children);
+        style: style,
+        value: this.state.value,
+        onChange: this.handleChange
+      });
     }
   }]);
 
-  return KnossysInfoPanel;
+  return KTextInput;
 }(_react.Component);
 
-var _default = KnossysInfoPanel;
+_defineProperty(KTextInput, "TINY", 'small');
+
+_defineProperty(KTextInput, "REGULAR", 'regular');
+
+_defineProperty(KTextInput, "MEDIUM", 'medium');
+
+_defineProperty(KTextInput, "LARGE", 'large');
+
+var _default = KTextInput;
 exports.default = _default;

@@ -9,7 +9,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-require("./styles/main.css");
+require("./styles/lists.css");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -35,24 +35,27 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  * 
  */
-var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
-  _inherits(KnossysInfoPanel, _Component);
+var KList = /*#__PURE__*/function (_Component) {
+  _inherits(KList, _Component);
 
-  var _super = _createSuper(KnossysInfoPanel);
+  var _super = _createSuper(KList);
 
   /**
    * 
    */
-  function KnossysInfoPanel(props) {
+  function KList(props) {
     var _this;
 
-    _classCallCheck(this, KnossysInfoPanel);
+    _classCallCheck(this, KList);
 
     _this = _super.call(this, props);
     _this.state = {};
+    _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
@@ -60,7 +63,7 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
    */
 
 
-  _createClass(KnossysInfoPanel, [{
+  _createClass(KList, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       console.log("componentDidMount ()");
@@ -73,39 +76,69 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {}
     /**
+     * 
+     */
+
+  }, {
+    key: "onClick",
+    value: function onClick(e) {
+      if (this.props.onClick) {
+        this.props.onClick(e);
+      }
+    }
+    /**
      *
      */
 
   }, {
     key: "render",
     value: function render() {
-      var classes = "kinfopanel";
-      var children;
+      var classes = "klist klist-regular";
       var style;
+
+      if (this.props.size) {
+        if (this.props.size == KButton.TINY) {
+          classes = "klist klist-tiny";
+        }
+
+        if (this.props.size == KButton.REGULAR) {
+          classes = "klist klist-regular";
+        }
+
+        if (this.props.size == KButton.MEDIUM) {
+          classes = "klist klist-medium";
+        }
+
+        if (this.props.size == KButton.LARGE) {
+          classes = "klist klist-large";
+        }
+      }
 
       if (this.props.style) {
         style = this.props.style;
       }
 
       if (this.props.classes) {
-        classes = "kinfopanel " + this.props.classes;
+        classes = classes + " " + this.props.classes;
       }
 
-      if (this.props.children) {
-        children = this.props.children;
-      } else {
-        children = /*#__PURE__*/_react.default.createElement("p", null, "This is the most basic panel in Knossys. It is mainly used to build fixed-location info panels. It is not the basis for windows and dialogs. It does use the theme.");
-      }
-
-      return /*#__PURE__*/_react.default.createElement("div", {
+      return /*#__PURE__*/_react.default.createElement("ul", {
         className: classes,
         style: style
-      }, children);
+      }, /*#__PURE__*/_react.default.createElement("li", null, "Head"), /*#__PURE__*/_react.default.createElement("li", null, "Shoulders"), /*#__PURE__*/_react.default.createElement("li", null, "Knees"), /*#__PURE__*/_react.default.createElement("li", null, "Toes"));
     }
   }]);
 
-  return KnossysInfoPanel;
+  return KList;
 }(_react.Component);
 
-var _default = KnossysInfoPanel;
+_defineProperty(KList, "TINY", 'small');
+
+_defineProperty(KList, "REGULAR", 'regular');
+
+_defineProperty(KList, "MEDIUM", 'medium');
+
+_defineProperty(KList, "LARGE", 'large');
+
+var _default = KList;
 exports.default = _default;

@@ -1,0 +1,15 @@
+.kselect {
+  /* margin: 50px; */
+  /* width: 150px; */
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  border: 1px solid #5c5c5c;
+  height: 34px;
+  /* -webkit-appearance: none; */
+  -moz-appearance: none;
+  /* appearance: none; */
+  background-color: #363535;
+  /* background: url(https://stackoverflow.com/favicon.ico) 96%/15% no-repeat #EEE; */
+  color: #cdc9c9;
+  font-size: 10pt;
+}

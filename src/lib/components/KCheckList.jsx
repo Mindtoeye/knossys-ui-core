@@ -1,6 +1,8 @@
 
 import React, { Component } from 'react';
 
+import KCheckListItem from './KCheckListItem';
+
 import './styles/lists.css';
 
 /**
@@ -21,8 +23,6 @@ class KCheckList extends Component {
 
     this.state = {      
     };
-
-    this.onClick=this.onClick.bind(this);
   }
 
   /**
@@ -36,15 +36,6 @@ class KCheckList extends Component {
    * 
    */
   componentWillUnmount() {      
-  }
-
-  /**
-   * 
-   */
-  onClick (e) {
-    if (this.props.onClick) {
-      this.props.onClick(e);
-    }
   }
 
   /**
@@ -82,10 +73,10 @@ class KCheckList extends Component {
 
     return (
       <ul className={classes} style={style}>
-        <li>Head</li>
-        <li>Shoulders</li>
-        <li>Knees</li>
-        <li>Toes</li>
+        <KCheckListItem>Head</KCheckListItem>
+        <KCheckListItem>Shoulders</KCheckListItem>
+        <KCheckListItem>Knees</KCheckListItem>
+        <KCheckListItem>Toes</KCheckListItem>
       </ul>
     );
   }

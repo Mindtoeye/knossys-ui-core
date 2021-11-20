@@ -9,7 +9,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-require("./styles/main.css");
+require("./styles/buttons.css");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -35,24 +35,27 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  * 
  */
-var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
-  _inherits(KnossysInfoPanel, _Component);
+var KButton = /*#__PURE__*/function (_Component) {
+  _inherits(KButton, _Component);
 
-  var _super = _createSuper(KnossysInfoPanel);
+  var _super = _createSuper(KButton);
 
   /**
    * 
    */
-  function KnossysInfoPanel(props) {
+  function KButton(props) {
     var _this;
 
-    _classCallCheck(this, KnossysInfoPanel);
+    _classCallCheck(this, KButton);
 
     _this = _super.call(this, props);
     _this.state = {};
+    _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
@@ -60,7 +63,7 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
    */
 
 
-  _createClass(KnossysInfoPanel, [{
+  _createClass(KButton, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       console.log("componentDidMount ()");
@@ -73,39 +76,76 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {}
     /**
+     * 
+     */
+
+  }, {
+    key: "onClick",
+    value: function onClick(e) {
+      if (this.props.onClick) {
+        this.props.onClick(e);
+      }
+    }
+    /**
      *
      */
 
   }, {
     key: "render",
     value: function render() {
-      var classes = "kinfopanel";
-      var children;
+      var _this2 = this;
+
+      var button;
+      var classes = "kbutton kbutton-regular";
       var style;
+
+      if (this.props.size) {
+        if (this.props.size == KButton.TINY) {
+          classes = "kbutton kbutton-tiny";
+        }
+
+        if (this.props.size == KButton.REGULAR) {
+          classes = "kbutton kbutton-regular";
+        }
+
+        if (this.props.size == KButton.MEDIUM) {
+          classes = "kbutton kbutton-medium";
+        }
+
+        if (this.props.size == KButton.LARGE) {
+          classes = "kbutton kbutton-large";
+        }
+      }
 
       if (this.props.style) {
         style = this.props.style;
       }
 
       if (this.props.classes) {
-        classes = "kinfopanel " + this.props.classes;
+        classes = classes + " " + this.props.classes;
       }
 
-      if (this.props.children) {
-        children = this.props.children;
-      } else {
-        children = /*#__PURE__*/_react.default.createElement("p", null, "This is the most basic panel in Knossys. It is mainly used to build fixed-location info panels. It is not the basis for windows and dialogs. It does use the theme.");
-      }
-
-      return /*#__PURE__*/_react.default.createElement("div", {
+      button = /*#__PURE__*/_react.default.createElement("div", {
+        onClick: function onClick(e) {
+          return _this2.onClick(e);
+        },
         className: classes,
         style: style
-      }, children);
+      }, this.props.children);
+      return button;
     }
   }]);
 
-  return KnossysInfoPanel;
+  return KButton;
 }(_react.Component);
 
-var _default = KnossysInfoPanel;
+_defineProperty(KButton, "TINY", 'small');
+
+_defineProperty(KButton, "REGULAR", 'regular');
+
+_defineProperty(KButton, "MEDIUM", 'medium');
+
+_defineProperty(KButton, "LARGE", 'large');
+
+var _default = KButton;
 exports.default = _default;

@@ -9,7 +9,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-require("./styles/main.css");
+require("./styles/lists.css");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -35,24 +35,27 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  * 
  */
-var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
-  _inherits(KnossysInfoPanel, _Component);
+var KCheckList = /*#__PURE__*/function (_Component) {
+  _inherits(KCheckList, _Component);
 
-  var _super = _createSuper(KnossysInfoPanel);
+  var _super = _createSuper(KCheckList);
 
   /**
    * 
    */
-  function KnossysInfoPanel(props) {
+  function KCheckList(props) {
     var _this;
 
-    _classCallCheck(this, KnossysInfoPanel);
+    _classCallCheck(this, KCheckList);
 
     _this = _super.call(this, props);
     _this.state = {};
+    _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
@@ -60,7 +63,7 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
    */
 
 
-  _createClass(KnossysInfoPanel, [{
+  _createClass(KCheckList, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       console.log("componentDidMount ()");
@@ -73,39 +76,69 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {}
     /**
+     * 
+     */
+
+  }, {
+    key: "onClick",
+    value: function onClick(e) {
+      if (this.props.onClick) {
+        this.props.onClick(e);
+      }
+    }
+    /**
      *
      */
 
   }, {
     key: "render",
     value: function render() {
-      var classes = "kinfopanel";
-      var children;
+      var classes = "kcheck-list klist-regular";
       var style;
+
+      if (this.props.size) {
+        if (this.props.size == KButton.TINY) {
+          classes = "kcheck-list klist-tiny";
+        }
+
+        if (this.props.size == KButton.REGULAR) {
+          classes = "kcheck-list klist-regular";
+        }
+
+        if (this.props.size == KButton.MEDIUM) {
+          classes = "kcheck-list klist-medium";
+        }
+
+        if (this.props.size == KButton.LARGE) {
+          classes = "kcheck-list klist-large";
+        }
+      }
 
       if (this.props.style) {
         style = this.props.style;
       }
 
       if (this.props.classes) {
-        classes = "kinfopanel " + this.props.classes;
+        classes = classes + " " + this.props.classes;
       }
 
-      if (this.props.children) {
-        children = this.props.children;
-      } else {
-        children = /*#__PURE__*/_react.default.createElement("p", null, "This is the most basic panel in Knossys. It is mainly used to build fixed-location info panels. It is not the basis for windows and dialogs. It does use the theme.");
-      }
-
-      return /*#__PURE__*/_react.default.createElement("div", {
+      return /*#__PURE__*/_react.default.createElement("ul", {
         className: classes,
         style: style
-      }, children);
+      }, /*#__PURE__*/_react.default.createElement("li", null, "Head"), /*#__PURE__*/_react.default.createElement("li", null, "Shoulders"), /*#__PURE__*/_react.default.createElement("li", null, "Knees"), /*#__PURE__*/_react.default.createElement("li", null, "Toes"));
     }
   }]);
 
-  return KnossysInfoPanel;
+  return KCheckList;
 }(_react.Component);
 
-var _default = KnossysInfoPanel;
+_defineProperty(KCheckList, "TINY", 'small');
+
+_defineProperty(KCheckList, "REGULAR", 'regular');
+
+_defineProperty(KCheckList, "MEDIUM", 'medium');
+
+_defineProperty(KCheckList, "LARGE", 'large');
+
+var _default = KCheckList;
 exports.default = _default;

@@ -8,6 +8,11 @@ import './styles/select.css';
  */
 class KSelect extends Component {
 
+  static TINY = 'small';
+  static REGULAR = 'regular';
+  static MEDIUM = 'medium';
+  static LARGE = 'large';
+
   /**
    * 
    */
@@ -22,13 +27,14 @@ class KSelect extends Component {
    * 
    */
   componentDidMount () {
-    console.log ("componentDidMount ()");
+    //console.log ("componentDidMount ()");
   }
 
   /**
    * 
    */
   componentWillUnmount() {      
+    //console.log ("componentWillUnmount ()");
   }
 
   /**
@@ -36,7 +42,25 @@ class KSelect extends Component {
    */
   render () {
     let style;
-    let classes="kselect";
+    let classes="kselect kselect-regular";
+
+    if (this.props.size) {
+      if (this.props.size==KSelect.TINY) {
+        classes="kselect kselect-tiny";
+      }
+
+      if (this.props.size==KSelect.REGULAR) {
+        classes="kselect kselect-regular";
+      }
+
+      if (this.props.size==KSelect.MEDIUM) {
+        classes="kselect kselect-medium";
+      }
+
+      if (this.props.size==KSelect.LARGE) {
+        classes="kselect kselect-large";
+      }
+    }
 
     if (this.props.style) {
       style=this.props.style;

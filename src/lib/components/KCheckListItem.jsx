@@ -25,29 +25,38 @@ class KCheckListItem extends Component {
    * 
    */
   componentDidMount () {
-    console.log ("componentDidMount ()");
+    //console.log ("componentDidMount ()");
+
+    if (this.props.register) {
+      this.props.register(this.props.id);
+    }
   }
 
   /**
    * 
    */
   componentWillUnmount() {      
+    //console.log ("componentWillUnmount ()");
+
   }
 
   /**
    * 
    */
   onClick (e) {
-    console.log ("Checklist item click");
+    //console.log ("onClick ("+this.state.checked+")");
 
     let toggle=this.state.checked;
 
-    this.setState ({
-      checked: !toggle
-    })
+    // flip the switch
+    toggle=!toggle;
 
-    if (this.props.onClick) {
-      this.props.onClick(e);
+    this.setState ({
+      checked: toggle
+    });
+
+    if (this.props.onItemCheck) {
+      this.props.onItemCheck(e,toggle);
     }
   }
 
@@ -62,7 +71,7 @@ class KCheckListItem extends Component {
     }
 
     return (
-      <li className={classes} onClick={(e) => this.onClick (e)}>{this.props.children}</li>
+      <li id={this.props.id} className={classes} onClick={(e) => this.onClick (e)}>{this.props.children}</li>
     );
   }
 }

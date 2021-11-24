@@ -20,22 +20,59 @@ class KCheckList extends Component {
    */
   constructor (props) {
     super (props);
+  
+    this.list=[];
 
-    this.state = {      
+    this.state = {
+
     };
+
+    this.registerItem=this.registerItem.bind(this);
+    this.onItemCheck=this.onItemCheck.bind(this);
   }
 
   /**
    * 
    */
   componentDidMount () {
-    console.log ("componentDidMount ()");
+    //console.log ("componentDidMount ()");
   }
 
   /**
    * 
    */
-  componentWillUnmount() {      
+  componentWillUnmount() {
+    //console.log ("componentWillUnmount ()");    
+  }
+
+  /**
+   *
+   */
+  registerItem (anId) {
+    //console.log ("registerItem ("+anId+")");
+
+    this.list.push ({
+      id: anId,
+      checked: false
+    })
+  }
+
+  /**
+   *
+   */
+  onItemCheck (e,aValue) {
+    //console.log ("onItemCheck ("+e.target.id+","+aValue+")");
+
+    for (let i=0;i<this.list.length;i++) {
+      if(this.list[i].id==e.target.id) {
+        this.list[i].checked=aValue;
+        break;
+      }
+    }
+
+    if (this.props.checklistChecked) {
+      this.props.checklistChecked (this.list);
+    }
   }
 
   /**
@@ -73,10 +110,10 @@ class KCheckList extends Component {
 
     return (
       <ul className={classes} style={style}>
-        <KCheckListItem>Head</KCheckListItem>
-        <KCheckListItem>Shoulders</KCheckListItem>
-        <KCheckListItem>Knees</KCheckListItem>
-        <KCheckListItem>Toes</KCheckListItem>
+        <KCheckListItem id="1" register={this.registerItem} onItemCheck={this.onItemCheck}>Head</KCheckListItem>
+        <KCheckListItem id="2" register={this.registerItem} onItemCheck={this.onItemCheck}>Shoulders</KCheckListItem>
+        <KCheckListItem id="3" register={this.registerItem} onItemCheck={this.onItemCheck}>Knees</KCheckListItem>
+        <KCheckListItem id="4" register={this.registerItem} onItemCheck={this.onItemCheck}>Toes</KCheckListItem>
       </ul>
     );
   }

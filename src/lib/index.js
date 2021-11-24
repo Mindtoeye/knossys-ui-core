@@ -6,6 +6,11 @@ import KCheckList from './components/KCheckList';
 import KCheckListItem from './components/KCheckListItem';
 import KHorizontalSeparator from './components/KHorizontalSeparator';
 import KSelect from './components/KSelect';
+import KToggleSwitch from './components/KToggleSwitch';
+import KBasicAccordion from './components/KBasicAccordion';
+import KAccordion from './components/KAccordion';
+import KTabs from './components/KTabs';
+import KTab from './components/KTab';
 
 export { 
   KnossysInfoPanel, 
@@ -15,5 +20,10 @@ export {
   KCheckList, 
   KHorizontalSeparator,
   KCheckListItem,
-  KSelect
+  KSelect,
+  KToggleSwitch,
+  KAccordion,
+  KBasicAccordion,
+  KTabs,
+  KTab
 };

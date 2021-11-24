@@ -28,13 +28,14 @@ class KButton extends Component {
    * 
    */
   componentDidMount () {
-    console.log ("componentDidMount ()");
+    //console.log ("componentDidMount ()");
   }
 
   /**
    * 
    */
   componentWillUnmount() {      
+    //console.log ("componentWillUnmount ()");
   }
 
   /**

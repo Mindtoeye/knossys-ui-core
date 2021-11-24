@@ -29,13 +29,14 @@ class KList extends Component {
    * 
    */
   componentDidMount () {
-    console.log ("componentDidMount ()");
+    //console.log ("componentDidMount ()");
   }
 
   /**
    * 
    */
-  componentWillUnmount() {      
+  componentWillUnmount() {
+    //console.log ("componentWillUnmount ()");    
   }
 
   /**

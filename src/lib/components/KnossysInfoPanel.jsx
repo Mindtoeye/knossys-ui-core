@@ -21,13 +21,14 @@ class KnossysInfoPanel extends Component {
    * 
    */
   componentDidMount () {
-    console.log ("componentDidMount ()");
+    //console.log ("componentDidMount ()");
   }
 
   /**
    * 
    */
-  componentWillUnmount() {      
+  componentWillUnmount() {
+    //console.log ("componentWillUnmount ()");
   }
 
   /**
@@ -37,6 +38,7 @@ class KnossysInfoPanel extends Component {
     let classes="kinfopanel";
     let children;
     let style;
+    let label;
 
     if (this.props.style) {
       style=this.props.style;
@@ -52,8 +54,13 @@ class KnossysInfoPanel extends Component {
       children=<p>This is the most basic panel in Knossys. It is mainly used to build fixed-location info panels. It is not the basis for windows and dialogs. It does use the theme.</p>;
     }
 
+    if (this.props.label) {
+      label=<div className="kinfopanel-label">{this.props.label}</div>;
+    }
+
     return (
       <div className={classes} style={style}>
+      {label}
       {children}
       </div>
     );

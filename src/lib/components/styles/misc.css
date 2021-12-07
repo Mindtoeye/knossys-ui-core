@@ -10,3 +10,15 @@
   background: #3c3b3b;
   height: 1px;  
 }
+
+.knossys-dark .kreference {
+  padding: 2px;
+  position: absolute;
+  left: 2px;
+  bottom: 2px;
+}
+
+.knossys-dark .kreference a {
+  color: #fbe9b6;
+  font-size: 7pt;
+}

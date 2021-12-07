@@ -9,15 +9,19 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _KCheckListItem = _interopRequireDefault(require("./KCheckListItem"));
+var _fa = require("react-icons/fa");
 
-require("./styles/lists.css");
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+require("./styles/tree.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -39,149 +43,136 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+var getPaddingLeft = function getPaddingLeft(level, type) {
+  var paddingLeft = level * 15;
+  if (type === 'file') paddingLeft += 5;
+  return paddingLeft;
+};
 
+var getNodeLabel = function getNodeLabel(node) {
+  var splitter = node.path.split('/');
+  return splitter[splitter.length - 1];
+};
 /**
- * 
+ *
  */
-var KCheckList = /*#__PURE__*/function (_Component) {
-  _inherits(KCheckList, _Component);
 
-  var _super = _createSuper(KCheckList);
+
+var KTreeNode = /*#__PURE__*/function (_Component) {
+  _inherits(KTreeNode, _Component);
+
+  var _super = _createSuper(KTreeNode);
 
   /**
    * 
    */
-  function KCheckList(props) {
-    var _this;
+  function KTreeNode(props) {
+    _classCallCheck(this, KTreeNode);
 
-    _classCallCheck(this, KCheckList);
-
-    _this = _super.call(this, props);
-    _this.list = [];
-    _this.state = {};
-    _this.registerItem = _this.registerItem.bind(_assertThisInitialized(_this));
-    _this.onItemCheck = _this.onItemCheck.bind(_assertThisInitialized(_this));
-    return _this;
+    return _super.call(this, props);
   }
   /**
-   * 
+   *
    */
 
 
-  _createClass(KCheckList, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
+  _createClass(KTreeNode, [{
+    key: "uuidv4",
+    value: function uuidv4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : r & 0x3 | 0x8;
+        return v.toString(16);
+      });
     }
     /**
      * 
      */
 
   }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "registerItem",
-    value: function registerItem(anId) {
-      //console.log ("registerItem ("+anId+")");
-      this.list.push({
-        id: anId,
-        checked: false
-      });
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "onItemCheck",
-    value: function onItemCheck(e, aValue) {
-      //console.log ("onItemCheck ("+e.target.id+","+aValue+")");
-      for (var i = 0; i < this.list.length; i++) {
-        if (this.list[i].id == e.target.id) {
-          this.list[i].checked = aValue;
-          break;
-        }
-      }
-
-      if (this.props.checklistChecked) {
-        this.props.checklistChecked(this.list);
-      }
-    }
-    /**
-     *
-     */
-
-  }, {
     key: "render",
     value: function render() {
-      var classes = "kcheck-list klist-regular";
-      var style;
+      var _this = this;
 
-      if (this.props.size) {
-        if (this.props.size == KButton.TINY) {
-          classes = "kcheck-list klist-tiny";
-        }
+      var _this$props = this.props,
+          node = _this$props.node,
+          getChildNodes = _this$props.getChildNodes,
+          level = _this$props.level,
+          type = _this$props.type,
+          onToggle = _this$props.onToggle,
+          onNodeSelect = _this$props.onNodeSelect;
+      var padding = getPaddingLeft(level, type);
+      var treeclass;
 
-        if (this.props.size == KButton.REGULAR) {
-          classes = "kcheck-list klist-regular";
-        }
-
-        if (this.props.size == KButton.MEDIUM) {
-          classes = "kcheck-list klist-medium";
-        }
-
-        if (this.props.size == KButton.LARGE) {
-          classes = "kcheck-list klist-large";
+      if (node.selected) {
+        if (node.selected == true) {
+          treeclass = "kselected";
         }
       }
 
-      if (this.props.style) {
-        style = this.props.style;
+      var chevron;
+      var marginLeft = "0px";
+
+      if (node.type == 'file') {
+        marginLeft = "4px";
       }
 
-      if (this.props.classes) {
-        classes = classes + " " + this.props.classes;
+      if (node.children) {
+        if (node.children.length > 0) {
+          chevron = /*#__PURE__*/_react.default.createElement("div", {
+            key: this.uuidv4(),
+            style: {
+              marginRight: "5px"
+            },
+            onClick: function onClick() {
+              return onToggle(node);
+            }
+          }, node.type === 'folder' && (node.isOpen ? /*#__PURE__*/_react.default.createElement(_fa.FaChevronDown, null) : /*#__PURE__*/_react.default.createElement(_fa.FaChevronRight, null)));
+        }
       }
 
-      return /*#__PURE__*/_react.default.createElement("ul", {
-        className: classes,
-        style: style
-      }, /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "1",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Head"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "2",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Shoulders"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "3",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Knees"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "4",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Toes"));
+      return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+        key: this.uuidv4(),
+        className: "ktreenode",
+        style: {
+          paddingLeft: padding
+        }
+      }, chevron, /*#__PURE__*/_react.default.createElement("div", {
+        key: this.uuidv4(),
+        style: {
+          fontSize: "12px",
+          marginRight: "4px",
+          marginLeft: marginLeft
+        }
+      }, node.type === 'file' && /*#__PURE__*/_react.default.createElement(_fa.FaFile, null), node.type === 'folder' && node.isOpen === true && /*#__PURE__*/_react.default.createElement(_fa.FaFolderOpen, null), node.type === 'folder' && !node.isOpen && /*#__PURE__*/_react.default.createElement(_fa.FaFolder, null)), /*#__PURE__*/_react.default.createElement("span", {
+        className: treeclass,
+        role: "button",
+        onClick: function onClick() {
+          return onNodeSelect(node);
+        }
+      }, getNodeLabel(node))), node.isOpen && getChildNodes(node).map(function (childNode) {
+        return /*#__PURE__*/_react.default.createElement(KTreeNode, _extends({
+          key: _this.uuidv4()
+        }, _this.props, {
+          node: childNode,
+          level: level + 1
+        }));
+      }));
     }
   }]);
 
-  return KCheckList;
+  return KTreeNode;
 }(_react.Component);
 
-_defineProperty(KCheckList, "TINY", 'small');
-
-_defineProperty(KCheckList, "REGULAR", 'regular');
-
-_defineProperty(KCheckList, "MEDIUM", 'medium');
-
-_defineProperty(KCheckList, "LARGE", 'large');
-
-var _default = KCheckList;
+KTreeNode.propTypes = {
+  node: _propTypes.default.object.isRequired,
+  getChildNodes: _propTypes.default.func.isRequired,
+  level: _propTypes.default.number.isRequired,
+  onToggle: _propTypes.default.func.isRequired,
+  onNodeSelect: _propTypes.default.func.isRequired
+};
+KTreeNode.defaultProps = {
+  level: 0
+};
+var _default = KTreeNode;
 exports.default = _default;

@@ -1,5 +1,6 @@
-
 import React, { Component } from 'react';
+
+import KDataTools from './utils/KDataTools';
 
 import './styles/select.css';
 
@@ -19,7 +20,10 @@ class KSelect extends Component {
   constructor (props) {
     super (props);
 
-    this.state = {      
+    this.dataTools=new KDataTools ();
+
+    this.state = {
+      selected: ""
     };
   }
 
@@ -40,8 +44,22 @@ class KSelect extends Component {
   /**
    *
    */
+  handleChange(e) {    
+    this.setState({ 
+      selected: e.target.value 
+    });
+
+    if (this.props.handleChange) {
+      this.props.handleChange (e.target.value);
+    }
+  }
+
+  /**
+   *
+   */
   render () {
     let style;
+    let options=[];
     let classes="kselect kselect-regular";
 
     if (this.props.size) {
@@ -70,12 +88,15 @@ class KSelect extends Component {
       classes=classes + " " + this.props.classes;
     }
 
+    if (this.props.options) {
+      for (let i=0;i<this.props.options.length;i++) {
+        options.push(<option key={"option-"+this.dataTools.uuidv4()}>{this.props.options [i]}</option>);
+      }
+    }
+
     return (
-      <select className={classes} style={style}>
-        <option>Apples</option>
-        <option>Pineapples</option>
-        <option>Chocolate</option>
-        <option>Pancakes</option>
+      <select className={classes} style={style} onChange={this.handleChange}>
+      {options}
       </select>
     );
   }

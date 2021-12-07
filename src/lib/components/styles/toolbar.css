@@ -1,0 +1,33 @@
+
+.knossys-dark .ktoolbar-horizontal {
+  display: flex;
+  flex-direction: row;
+  background: #121212;
+  padding: 2px;  
+  font-size: 12pt;
+}
+
+.knossys-dark .ktoolbar-vertical {
+  display: flex;  
+  flex-direction: column;
+  background: #121212;
+  padding: 2px;
+  font-size: 12pt;
+  display: inline-block;
+}
+
+.knossys-dark .ktoolbaritem {
+  flex: 0;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding: 2px;
+}
+
+.ktoolbaritem:hover {
+  background: #302f2f;
+  color: white;
+}
+
+.ktoolbaritem:active {
+  color: #f5f517;
+}

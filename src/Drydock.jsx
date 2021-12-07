@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 
+import { FaFile, FaFolder, FaFolderOpen } from 'react-icons/fa';
+import { MdAddLocation, MdUnfoldMore, MdUnfoldLess } from 'react-icons/md';
+import { RiStackshareLine } from 'react-icons/ri';
+import { GrUndo, GrRedo } from 'react-icons/gr';
+import { AiOutlineFolderOpen, AiOutlineFolder} from 'react-icons/ai';
+
+import KDriver from './lib/components/KDriver';
 import KnossysInfoPanel from './lib/components/KnossysInfoPanel';
 import KButton from './lib/components/KButton';
 import KTextInput from './lib/components/KTextInput';
@@ -9,15 +16,19 @@ import KCheckListItem from './lib/components/KCheckListItem';
 import KHorizontalSeparator from './lib/components/KHorizontalSeparator';
 import KSelect from './lib/components/KSelect';
 import KToggleSwitch from './lib/components/KToggleSwitch';
-import KBasicAccordion from './lib/components/KBasicAccordion';
 import KAccordion from './lib/components/KAccordion';
 import KTabs from './lib/components/KTabs';
+import KTree from './lib/components/KTree';
+import KToolbar from './lib/components/KToolbar';
+import KToolbarItem from './lib/components/KToolbarItem';
+import KWaitSpinner from './lib/components/KWaitSpinner';
 
 import './lib/components/styles/misc.css';
 import './lib/components/styles/accordion.css';
+import './lib/components/styles/driver.css';
 import './Drydock.css';
 
-export const accordionData = [
+const accordionData = [
   {
     id: 0,
     title: 'Section 1',
@@ -45,6 +56,54 @@ export const accordionData = [
   }
 ];
 
+const treeData = {
+  '/root': {
+    path: '/root',
+    type: 'folder',
+    isRoot: true,
+    children: ['/root/david', '/root/jslancer'],
+  },
+  '/root/david': {
+    path: '/root/david',
+    type: 'folder',
+    children: ['/root/david/file1.txt','/root/david/file2.txt','/root/david/file3.txt'],
+  },
+  '/root/david/file1.txt': {
+    path: '/root/david/file1.txt',
+    type: 'file',
+    content: 'Thanks for reading me me. But there is nothing here.'
+  },
+  '/root/david/file2.txt': {
+    path: '/root/david/file2.txt',
+    type: 'file',
+    content: 'Thanks for reading me me. But there is nothing here.'
+  },
+  '/root/david/file3.txt': {
+    path: '/root/david/file3.txt',
+    type: 'file',
+    content: 'Thanks for reading me me. But there is nothing here.'
+  },
+  '/root/jslancer': {
+    path: '/root/jslancer',
+    type: 'folder',
+    children: ['/root/jslancer/projects', '/root/jslancer/vblogs'],
+  },
+  '/root/jslancer/projects': {
+    path: '/root/jslancer/projects',
+    type: 'folder',
+    children: ['/root/jslancer/projects/treeview'],
+  },
+  '/root/jslancer/projects/treeview': {
+    path: '/root/jslancer/projects/treeview',
+    type: 'folder',
+    children: [],
+  },
+  '/root/jslancer/vblogs': {
+    path: '/root/jslancer/vblogs',
+    type: 'folder',
+    children: [],
+  },
+};
 
 /**
  * 
@@ -58,11 +117,33 @@ class Drydock extends Component {
     super (props);
 
     this.state = {
-      toggled: false
+      toggled: false,
+      spinnerType: KWaitSpinner.SPINNER_STYLE_01
     };
 
     this.checklistChecked=this.checklistChecked.bind(this);
+    this.onToolbarItemClick=this.onToolbarItemClick.bind(this);
     this.onToggleChange=this.onToggleChange.bind(this);
+    this.onTreebarItemClick=this.onTreebarItemClick.bind(this);
+    this.onTreeNodeSelect=this.onTreeNodeSelect.bind(this);
+
+    this.onAlert=this.onAlert.bind(this);
+    this.onConfirm=this.onConfirm.bind(this);
+  }
+
+  /**
+   *
+   */
+  onAlert () {
+    console.log ("onAlert ()");
+    window.knossys.alert ("Generic alert replacement");
+  }
+
+  /**
+   *
+   */
+  onConfirm () {
+    window.knossys.confirm ("Generic confirm replacement");
   }
 
   /**
@@ -92,31 +173,78 @@ class Drydock extends Component {
   /**
    *
    */
-  render () {
-    let theme="desktopContent knossys-dark";
+  onToolbarItemClick (anItem) {
+    console.log ("onToolbarItemClick ()");
+    console.log (anItem);
+  }
 
+  /**
+   *
+   */
+  onTreebarItemClick (anItem) {
+    console.log ("onTreebarItemClick ()");
+    console.log (anItem);
+
+    if (anItem=="foldin") {
+
+    }
+
+    if (anItem=="foldopen") {
+      
+    }    
+  }
+
+  /**
+   *
+   */
+  onTreeNodeSelect (anItem) {
+    console.log ("onTreeNodeSelect ()");
+    console.log (anItem);
+  }
+
+  /**
+   *
+   */
+  changeSpinner (e) {
+     let currentType=this.state.spinnerType;
+
+     currentType++;
+
+     if (currentType>KWaitSpinner.SPINNER_STYLE_10) {
+      currentType=KWaitSpinner.SPINNER_STYLE_01;
+     }
+
+     this.setState ({
+      spinnerType: currentType
+     });
+  }
+
+  /**
+   *
+   */
+  render () {
     return (
-      <div className={theme}>
+      <KDriver>
        <KnossysInfoPanel label="Buttons" style={{left: "50px", top: "50px"}}>
-          <KButton size={KButton.TINY} onClick={this.onClick}>
+          <KButton size={KButton.TINY} onClick={this.onClick} style={{margin: "2px"}}>
           Tiny
           </KButton>
 
           <br/>
 
-          <KButton size={KButton.REGULAR} onClick={this.onClick}>
+          <KButton size={KButton.REGULAR} onClick={this.onClick} style={{margin: "2px"}}>
           Regular
           </KButton>
 
           <br/>
 
-          <KButton size={KButton.MEDIUM} onClick={this.onClick}>
+          <KButton size={KButton.MEDIUM} onClick={this.onClick} style={{margin: "2px"}}>
           Medium
           </KButton>
 
           <br/>
 
-          <KButton size={KButton.LARGE} onClick={this.onClick}>
+          <KButton size={KButton.LARGE} onClick={this.onClick} style={{margin: "2px"}}>
           Large
           </KButton>
        </KnossysInfoPanel>
@@ -145,7 +273,7 @@ class Drydock extends Component {
           </KTextInput>
        </KnossysInfoPanel>
 
-       <KnossysInfoPanel label="Lists" style={{left: "50px", top: "252px", height: "500px"}}>
+       <KnossysInfoPanel label="Lists" style={{left: "50px", top: "252px", height: "197px"}}>
         <KList />
         
         <KHorizontalSeparator />
@@ -155,26 +283,52 @@ class Drydock extends Component {
         <KHorizontalSeparator />
        </KnossysInfoPanel>
 
+       <KnossysInfoPanel label="Toolbars" style={{left: "50px", top: "484px", height: "200px"}}>
+        <KToolbar>
+          <KToolbarItem onClick={this.onToolbarItemClick}><FaFile /></KToolbarItem>
+          <KToolbarItem onClick={this.onToolbarItemClick}><FaFolder /></KToolbarItem>
+          <KToolbarItem onClick={this.onToolbarItemClick}><FaFolderOpen /></KToolbarItem>
+          <KToolbarItem onClick={this.onToolbarItemClick}><MdAddLocation /></KToolbarItem>
+        </KToolbar>
+
+        <br/>
+
+        <KToolbar direction={KToolbar.DIRECTION_VERTICAL}>
+          <KToolbarItem onClick={this.onToolbarItemClick}><RiStackshareLine /></KToolbarItem>
+          <KToolbarItem onClick={this.onToolbarItemClick}><GrUndo /></KToolbarItem>
+          <KToolbarItem onClick={this.onToolbarItemClick}><GrRedo /></KToolbarItem>
+          <KToolbarItem onClick={this.onToolbarItemClick}><MdAddLocation /></KToolbarItem>
+        </KToolbar>        
+       </KnossysInfoPanel>       
+
        <KnossysInfoPanel label="Dropdowns" style={{left: "253px", top: "252px", width: "200px", height: "216px"}}>
-         <KSelect size={KSelect.TINY} style={{width: "100%"}} />
-         <KSelect size={KSelect.REGULAR} style={{width: "100%"}} />
-         <KSelect size={KSelect.MEDIUM} style={{width: "100%"}} />
-         <KSelect size={KSelect.LARGE} style={{width: "100%"}} />
+         <KSelect size={KSelect.TINY} style={{width: "100%"}} options={["Banana","Apple","Orange","Tomato"]} />
+         <KSelect size={KSelect.REGULAR} style={{width: "100%"}} options={["Banana","Apple","Orange","Tomato"]} />
+         <KSelect size={KSelect.MEDIUM} style={{width: "100%"}} options={["Banana","Apple","Orange","Tomato"]} />
+         <KSelect size={KSelect.LARGE} style={{width: "100%"}} options={["Banana","Apple","Orange","Tomato"]} />
        </KnossysInfoPanel>
 
        <KnossysInfoPanel label="Toggles" style={{left: "253px", top: "484px", width: "200px", height: "216px"}}>
          <KToggleSwitch id="default" checked={this.state.toggled} onChange={this.onToggleChange}/>
        </KnossysInfoPanel>
 
-       <KnossysInfoPanel label="Basic Accordion" style={{left: "475px", top: "50px", width: "226px", height: '350px', overflowY: 'auto'}}>
-        <div className="kaccordion-basic">
-          {accordionData.map(({ id, title, content }) => (
-            <KBasicAccordion title={title} content={content} />
-          ))}
-        </div>
-       </KnossysInfoPanel>
+       <KnossysInfoPanel label="Global/Environmnent" style={{left: "476px", top: "427px", width: "225px", height: "57px"}}>
+          <KButton size={KButton.REGULAR} onClick={this.onAlert} style={{margin: "2px"}}>
+          alert();
+          </KButton>
+          <KButton size={KButton.REGULAR} onClick={this.onConfirm} style={{margin: "2px"}}>
+          confirm();
+          </KButton>                   
+       </KnossysInfoPanel>       
 
-       <KnossysInfoPanel label="Accordion" style={{left: "475px", top: "421px", width: "226px", height: '350px', overflowY: 'auto'}}>
+       <KnossysInfoPanel label="Wait Spinners" style={{left: "476px", top: "505px", width: "227px", height: "267px", display: "flex", flexDirection: "column"}}>
+          <div style={{position: "relative", border: "0px solid yellow", flex: "1"}}>            
+            <KWaitSpinner type={this.state.spinnerType} onClick={(e) => this.changeSpinner(e)}/>
+            <div className="kreference"><a target="_blank" href="https://codepen.io/nikhil8krishnan">Original by Nikhil Krishnan</a></div>
+          </div>
+       </KnossysInfoPanel>       
+
+       <KnossysInfoPanel label="Accordion" style={{left: "475px", top: "50px", width: "226px", height: '350px', overflowY: 'auto'}}>
         <KAccordion data={accordionData} />
        </KnossysInfoPanel>          
 
@@ -190,10 +344,18 @@ class Drydock extends Component {
             Nothing to see here, this tab is <em>extinct</em>!
           </div>
         </KTabs>        
-       </KnossysInfoPanel> 
+       </KnossysInfoPanel>
+
+       <KnossysInfoPanel label="Tree View" style={{left: "725px", top: "422px", width: "226px", height: '350px'}}>
+        <KToolbar>        
+          <KToolbarItem onClick={(e) => this.onTreebarItemClick (e,"foldopen")}><AiOutlineFolderOpen /></KToolbarItem>
+          <KToolbarItem onClick={(e) => this.onTreebarItemClick (e,"foldin")}><AiOutlineFolder /></KToolbarItem>
+        </KToolbar>
+         <KTree onSelect={this.onTreeNodeSelect} data={treeData} />
+       </KnossysInfoPanel>
 
        <KnossysInfoPanel classes="kbottom-right" />
-      </div>
+      </KDriver>
     );
   }
 }

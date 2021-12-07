@@ -9,9 +9,11 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _KCheckListItem = _interopRequireDefault(require("./KCheckListItem"));
+var _KDataTools = _interopRequireDefault(require("./utils/KDataTools"));
 
-require("./styles/lists.css");
+var _AnimateHeight = _interopRequireDefault(require("./AnimateHeight"));
+
+require("./styles/accordion.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,29 +41,41 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /**
  * 
  */
-var KCheckList = /*#__PURE__*/function (_Component) {
-  _inherits(KCheckList, _Component);
+var KAccordion = /*#__PURE__*/function (_Component) {
+  _inherits(KAccordion, _Component);
 
-  var _super = _createSuper(KCheckList);
+  var _super = _createSuper(KAccordion);
 
   /**
    * 
    */
-  function KCheckList(props) {
+  function KAccordion(props) {
     var _this;
 
-    _classCallCheck(this, KCheckList);
+    _classCallCheck(this, KAccordion);
 
     _this = _super.call(this, props);
-    _this.list = [];
-    _this.state = {};
-    _this.registerItem = _this.registerItem.bind(_assertThisInitialized(_this));
-    _this.onItemCheck = _this.onItemCheck.bind(_assertThisInitialized(_this));
+    _this.dataTools = new _KDataTools.default();
+    var prepped = [];
+
+    for (var i = 0; i < props.data.length; i++) {
+      var newItem = {
+        id: i,
+        title: props.data[i].title,
+        content: props.data[i].content,
+        open: false,
+        height: 0
+      };
+      prepped.push(newItem);
+    }
+
+    _this.state = {
+      data: prepped
+    };
+    _this.setIsActive = _this.setIsActive.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
@@ -69,119 +83,82 @@ var KCheckList = /*#__PURE__*/function (_Component) {
    */
 
 
-  _createClass(KCheckList, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
+  _createClass(KAccordion, [{
+    key: "setIsActive",
+    value: function setIsActive(anIndex) {
+      var newData = this.dataTools.deepCopy(this.state.data);
+
+      for (var i = 0; i < newData.length; i++) {
+        var item = newData[i];
+
+        if (item.id == anIndex) {
+          if (item.open == true) {
+            item.open = false;
+            item.height = 0;
+          } else {
+            item.open = true;
+            item.height = "auto";
+          }
+        } else {
+          item.open = false;
+          item.height = 0;
+        }
+      }
+
+      this.setState({
+        data: newData
+      });
     }
     /**
      * 
      */
 
   }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
-    }
-    /**
-     *
-     */
+    key: "renderItem",
+    value: function renderItem(i, anItem) {
+      var _this2 = this;
 
-  }, {
-    key: "registerItem",
-    value: function registerItem(anId) {
-      //console.log ("registerItem ("+anId+")");
-      this.list.push({
-        id: anId,
-        checked: false
-      });
-    }
-    /**
-     *
-     */
+      var content; //if (anItem.open==true) {
 
-  }, {
-    key: "onItemCheck",
-    value: function onItemCheck(e, aValue) {
-      //console.log ("onItemCheck ("+e.target.id+","+aValue+")");
-      for (var i = 0; i < this.list.length; i++) {
-        if (this.list[i].id == e.target.id) {
-          this.list[i].checked = aValue;
-          break;
+      content = /*#__PURE__*/_react.default.createElement(_AnimateHeight.default, {
+        id: "panel-" + i,
+        duration: 200,
+        height: anItem.height
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "kaccordion-content"
+      }, anItem.content)); //}
+
+      return /*#__PURE__*/_react.default.createElement("div", {
+        key: "accordion-item-" + i,
+        className: "kaccordion-item"
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "kaccordion-title",
+        onClick: function onClick(e) {
+          return _this2.setIsActive(i);
         }
-      }
-
-      if (this.props.checklistChecked) {
-        this.props.checklistChecked(this.list);
-      }
+      }, /*#__PURE__*/_react.default.createElement("div", null, anItem.title), /*#__PURE__*/_react.default.createElement("div", null, anItem.open ? '-' : '+')), content);
     }
     /**
-     *
+     * 
      */
 
   }, {
     key: "render",
     value: function render() {
-      var classes = "kcheck-list klist-regular";
-      var style;
+      var items = [];
 
-      if (this.props.size) {
-        if (this.props.size == KButton.TINY) {
-          classes = "kcheck-list klist-tiny";
-        }
-
-        if (this.props.size == KButton.REGULAR) {
-          classes = "kcheck-list klist-regular";
-        }
-
-        if (this.props.size == KButton.MEDIUM) {
-          classes = "kcheck-list klist-medium";
-        }
-
-        if (this.props.size == KButton.LARGE) {
-          classes = "kcheck-list klist-large";
-        }
+      for (var i = 0; i < this.state.data.length; i++) {
+        items.push(this.renderItem(i, this.state.data[i]));
       }
 
-      if (this.props.style) {
-        style = this.props.style;
-      }
-
-      if (this.props.classes) {
-        classes = classes + " " + this.props.classes;
-      }
-
-      return /*#__PURE__*/_react.default.createElement("ul", {
-        className: classes,
-        style: style
-      }, /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "1",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Head"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "2",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Shoulders"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "3",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Knees"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "4",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Toes"));
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "kaccordion"
+      }, items);
     }
   }]);
 
-  return KCheckList;
+  return KAccordion;
 }(_react.Component);
 
-_defineProperty(KCheckList, "TINY", 'small');
-
-_defineProperty(KCheckList, "REGULAR", 'regular');
-
-_defineProperty(KCheckList, "MEDIUM", 'medium');
-
-_defineProperty(KCheckList, "LARGE", 'large');
-
-var _default = KCheckList;
+var _default = KAccordion;
 exports.default = _default;

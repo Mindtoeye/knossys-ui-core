@@ -9,11 +9,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _KCheckListItem = _interopRequireDefault(require("./KCheckListItem"));
-
-require("./styles/lists.css");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+require("./styles/toolbar.css");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -39,29 +35,25 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /**
  * 
  */
-var KCheckList = /*#__PURE__*/function (_Component) {
-  _inherits(KCheckList, _Component);
+var KToolbarItem = /*#__PURE__*/function (_Component) {
+  _inherits(KToolbarItem, _Component);
 
-  var _super = _createSuper(KCheckList);
+  var _super = _createSuper(KToolbarItem);
 
   /**
    * 
    */
-  function KCheckList(props) {
+  function KToolbarItem(props) {
     var _this;
 
-    _classCallCheck(this, KCheckList);
+    _classCallCheck(this, KToolbarItem);
 
     _this = _super.call(this, props);
-    _this.list = [];
     _this.state = {};
-    _this.registerItem = _this.registerItem.bind(_assertThisInitialized(_this));
-    _this.onItemCheck = _this.onItemCheck.bind(_assertThisInitialized(_this));
+    _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
@@ -69,7 +61,7 @@ var KCheckList = /*#__PURE__*/function (_Component) {
    */
 
 
-  _createClass(KCheckList, [{
+  _createClass(KToolbarItem, [{
     key: "componentDidMount",
     value: function componentDidMount() {//console.log ("componentDidMount ()");
     }
@@ -79,38 +71,17 @@ var KCheckList = /*#__PURE__*/function (_Component) {
 
   }, {
     key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
+    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");
     }
     /**
-     *
+     * 
      */
 
   }, {
-    key: "registerItem",
-    value: function registerItem(anId) {
-      //console.log ("registerItem ("+anId+")");
-      this.list.push({
-        id: anId,
-        checked: false
-      });
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "onItemCheck",
-    value: function onItemCheck(e, aValue) {
-      //console.log ("onItemCheck ("+e.target.id+","+aValue+")");
-      for (var i = 0; i < this.list.length; i++) {
-        if (this.list[i].id == e.target.id) {
-          this.list[i].checked = aValue;
-          break;
-        }
-      }
-
-      if (this.props.checklistChecked) {
-        this.props.checklistChecked(this.list);
+    key: "onClick",
+    value: function onClick(e) {
+      if (this.props.onClick) {
+        this.props.onClick(e);
       }
     }
     /**
@@ -120,26 +91,11 @@ var KCheckList = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var classes = "kcheck-list klist-regular";
+      var _this2 = this;
+
+      var button;
+      var classes = "ktoolbaritem";
       var style;
-
-      if (this.props.size) {
-        if (this.props.size == KButton.TINY) {
-          classes = "kcheck-list klist-tiny";
-        }
-
-        if (this.props.size == KButton.REGULAR) {
-          classes = "kcheck-list klist-regular";
-        }
-
-        if (this.props.size == KButton.MEDIUM) {
-          classes = "kcheck-list klist-medium";
-        }
-
-        if (this.props.size == KButton.LARGE) {
-          classes = "kcheck-list klist-large";
-        }
-      }
 
       if (this.props.style) {
         style = this.props.style;
@@ -149,39 +105,18 @@ var KCheckList = /*#__PURE__*/function (_Component) {
         classes = classes + " " + this.props.classes;
       }
 
-      return /*#__PURE__*/_react.default.createElement("ul", {
+      return /*#__PURE__*/_react.default.createElement("div", {
         className: classes,
-        style: style
-      }, /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "1",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Head"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "2",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Shoulders"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "3",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Knees"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "4",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Toes"));
+        style: style,
+        onClick: function onClick(e) {
+          return _this2.onClick(e);
+        }
+      }, this.props.children);
     }
   }]);
 
-  return KCheckList;
+  return KToolbarItem;
 }(_react.Component);
 
-_defineProperty(KCheckList, "TINY", 'small');
-
-_defineProperty(KCheckList, "REGULAR", 'regular');
-
-_defineProperty(KCheckList, "MEDIUM", 'medium');
-
-_defineProperty(KCheckList, "LARGE", 'large');
-
-var _default = KCheckList;
+var _default = KToolbarItem;
 exports.default = _default;

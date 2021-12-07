@@ -11,6 +11,10 @@ import KBasicAccordion from './components/KBasicAccordion';
 import KAccordion from './components/KAccordion';
 import KTabs from './components/KTabs';
 import KTab from './components/KTab';
+import KTree from './components/KTree';
+import KTreeNode from './components/KTreeNode';
+import KToolbar from './components/KToolbar';
+import KToolbarItem from './components/KToolbarItem';
 
 export { 
   KnossysInfoPanel, 
@@ -23,7 +27,10 @@ export {
   KSelect,
   KToggleSwitch,
   KAccordion,
-  KBasicAccordion,
   KTabs,
-  KTab
+  KTab,
+  KTree,
+  KTreeNode,
+  KToolbar,
+  KToolbarItem
 };

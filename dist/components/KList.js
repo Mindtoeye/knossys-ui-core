@@ -65,8 +65,7 @@ var KList = /*#__PURE__*/function (_Component) {
 
   _createClass(KList, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      console.log("componentDidMount ()");
+    value: function componentDidMount() {//console.log ("componentDidMount ()");
     }
     /**
      * 
@@ -74,7 +73,8 @@ var KList = /*#__PURE__*/function (_Component) {
 
   }, {
     key: "componentWillUnmount",
-    value: function componentWillUnmount() {}
+    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
+    }
     /**
      * 
      */

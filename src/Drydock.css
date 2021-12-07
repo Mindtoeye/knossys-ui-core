@@ -16,21 +16,6 @@ body {
   padding: 0px;
 }
 
-.desktopContent {
-  position: absolute;
-  margin: 0px;
-  padding: 0px;
-
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  background: linear-gradient(117deg, rgba(97,97,97,1) 0%, rgba(0,0,0,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#616161', endColorstr='#000000',GradientType=1 );
-  background-image: url('./background-dark-01.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 .kmonitor {
   
 }

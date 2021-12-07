@@ -67,8 +67,7 @@ var KTextInput = /*#__PURE__*/function (_Component) {
 
   _createClass(KTextInput, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      console.log("componentDidMount ()");
+    value: function componentDidMount() {//console.log ("componentDidMount ()");
     }
     /**
      * 
@@ -76,7 +75,8 @@ var KTextInput = /*#__PURE__*/function (_Component) {
 
   }, {
     key: "componentWillUnmount",
-    value: function componentWillUnmount() {}
+    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
+    }
     /**
      * 
      */
@@ -87,6 +87,10 @@ var KTextInput = /*#__PURE__*/function (_Component) {
       this.setState({
         value: event.target.value
       });
+
+      if (this.props.handleChange) {
+        this.props.handleChange(event.target.value);
+      }
     }
     /**
      *

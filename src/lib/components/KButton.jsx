@@ -17,9 +17,16 @@ class KButton extends Component {
    */
   constructor (props) {
     super (props);
-
+ 
+    /*
     this.state = {      
+      enabled: true
     };
+    */
+
+    this.state = {
+    };
+
 
     this.onClick=this.onClick.bind(this);
   }
@@ -54,6 +61,12 @@ class KButton extends Component {
     let button;
     let classes="kbutton kbutton-regular";
     let style;
+
+    if (this.props.enabled) {
+      if (this.props.enabled==false) {
+        classes=classes + " kbutton-disabled";
+      }
+    }
 
     if (this.props.size) {
       if (this.props.size==KButton.TINY) {

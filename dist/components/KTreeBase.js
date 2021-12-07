@@ -9,12 +9,6 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _KCheckListItem = _interopRequireDefault(require("./KCheckListItem"));
-
-require("./styles/lists.css");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -42,146 +36,58 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
- * 
+ *
  */
-var KCheckList = /*#__PURE__*/function (_Component) {
-  _inherits(KCheckList, _Component);
+var KTreeBase = /*#__PURE__*/function (_Component) {
+  _inherits(KTreeBase, _Component);
 
-  var _super = _createSuper(KCheckList);
+  var _super = _createSuper(KTreeBase);
 
   /**
-   * 
+   *
    */
-  function KCheckList(props) {
+  function KTreeBase(props) {
     var _this;
 
-    _classCallCheck(this, KCheckList);
+    _classCallCheck(this, KTreeBase);
 
     _this = _super.call(this, props);
-    _this.list = [];
-    _this.state = {};
-    _this.registerItem = _this.registerItem.bind(_assertThisInitialized(_this));
-    _this.onItemCheck = _this.onItemCheck.bind(_assertThisInitialized(_this));
+
+    _defineProperty(_assertThisInitialized(_this), "getPaddingLeft", function (level, type) {
+      var paddingLeft = level * 15;
+      if (type === 'file') paddingLeft += 5;
+      return paddingLeft;
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "getNodeLabel", function (node) {
+      var splitter = node.path.split('/');
+      return splitter[splitter.length - 1];
+    });
+
     return _this;
   }
   /**
-   * 
+   *
    */
 
 
-  _createClass(KCheckList, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
-    }
-    /**
-     * 
-     */
-
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
-    }
+  _createClass(KTreeBase, [{
+    key: "uuidv4",
+    value:
     /**
      *
      */
-
-  }, {
-    key: "registerItem",
-    value: function registerItem(anId) {
-      //console.log ("registerItem ("+anId+")");
-      this.list.push({
-        id: anId,
-        checked: false
+    function uuidv4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : r & 0x3 | 0x8;
+        return v.toString(16);
       });
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "onItemCheck",
-    value: function onItemCheck(e, aValue) {
-      //console.log ("onItemCheck ("+e.target.id+","+aValue+")");
-      for (var i = 0; i < this.list.length; i++) {
-        if (this.list[i].id == e.target.id) {
-          this.list[i].checked = aValue;
-          break;
-        }
-      }
-
-      if (this.props.checklistChecked) {
-        this.props.checklistChecked(this.list);
-      }
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "render",
-    value: function render() {
-      var classes = "kcheck-list klist-regular";
-      var style;
-
-      if (this.props.size) {
-        if (this.props.size == KButton.TINY) {
-          classes = "kcheck-list klist-tiny";
-        }
-
-        if (this.props.size == KButton.REGULAR) {
-          classes = "kcheck-list klist-regular";
-        }
-
-        if (this.props.size == KButton.MEDIUM) {
-          classes = "kcheck-list klist-medium";
-        }
-
-        if (this.props.size == KButton.LARGE) {
-          classes = "kcheck-list klist-large";
-        }
-      }
-
-      if (this.props.style) {
-        style = this.props.style;
-      }
-
-      if (this.props.classes) {
-        classes = classes + " " + this.props.classes;
-      }
-
-      return /*#__PURE__*/_react.default.createElement("ul", {
-        className: classes,
-        style: style
-      }, /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "1",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Head"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "2",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Shoulders"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "3",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Knees"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "4",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Toes"));
     }
   }]);
 
-  return KCheckList;
+  return KTreeBase;
 }(_react.Component);
 
-_defineProperty(KCheckList, "TINY", 'small');
-
-_defineProperty(KCheckList, "REGULAR", 'regular');
-
-_defineProperty(KCheckList, "MEDIUM", 'medium');
-
-_defineProperty(KCheckList, "LARGE", 'large');
-
-var _default = KCheckList;
+var _default = KTreeBase;
 exports.default = _default;

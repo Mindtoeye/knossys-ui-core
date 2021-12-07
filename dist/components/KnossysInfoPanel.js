@@ -62,8 +62,7 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
 
   _createClass(KnossysInfoPanel, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      console.log("componentDidMount ()");
+    value: function componentDidMount() {//console.log ("componentDidMount ()");
     }
     /**
      * 
@@ -71,7 +70,8 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
 
   }, {
     key: "componentWillUnmount",
-    value: function componentWillUnmount() {}
+    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");
+    }
     /**
      *
      */
@@ -82,6 +82,7 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
       var classes = "kinfopanel";
       var children;
       var style;
+      var label;
 
       if (this.props.style) {
         style = this.props.style;
@@ -97,10 +98,16 @@ var KnossysInfoPanel = /*#__PURE__*/function (_Component) {
         children = /*#__PURE__*/_react.default.createElement("p", null, "This is the most basic panel in Knossys. It is mainly used to build fixed-location info panels. It is not the basis for windows and dialogs. It does use the theme.");
       }
 
+      if (this.props.label) {
+        label = /*#__PURE__*/_react.default.createElement("div", {
+          className: "kinfopanel-label"
+        }, this.props.label);
+      }
+
       return /*#__PURE__*/_react.default.createElement("div", {
         className: classes,
         style: style
-      }, children);
+      }, label, children);
     }
   }]);
 

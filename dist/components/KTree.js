@@ -9,9 +9,13 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _KCheckListItem = _interopRequireDefault(require("./KCheckListItem"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-require("./styles/lists.css");
+var _KDataTools = _interopRequireDefault(require("./utils/KDataTools"));
+
+var _KTreeNode = _interopRequireDefault(require("./KTreeNode"));
+
+require("./styles/tree.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,76 +46,122 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
- * 
+ *
  */
-var KCheckList = /*#__PURE__*/function (_Component) {
-  _inherits(KCheckList, _Component);
+var KTree = /*#__PURE__*/function (_Component) {
+  _inherits(KTree, _Component);
 
-  var _super = _createSuper(KCheckList);
+  var _super = _createSuper(KTree);
 
   /**
-   * 
+   *
    */
-  function KCheckList(props) {
+  function KTree(props) {
     var _this;
 
-    _classCallCheck(this, KCheckList);
+    _classCallCheck(this, KTree);
 
     _this = _super.call(this, props);
-    _this.list = [];
-    _this.state = {};
-    _this.registerItem = _this.registerItem.bind(_assertThisInitialized(_this));
-    _this.onItemCheck = _this.onItemCheck.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-  /**
-   * 
-   */
 
+    _defineProperty(_assertThisInitialized(_this), "getRootNodes", function () {
+      var nodes = _this.state.nodes;
+      var rootNodes = [];
 
-  _createClass(KCheckList, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
-    }
-    /**
-     * 
-     */
+      for (var item in nodes) {
+        var testNode = nodes[item];
 
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "registerItem",
-    value: function registerItem(anId) {
-      //console.log ("registerItem ("+anId+")");
-      this.list.push({
-        id: anId,
-        checked: false
-      });
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "onItemCheck",
-    value: function onItemCheck(e, aValue) {
-      //console.log ("onItemCheck ("+e.target.id+","+aValue+")");
-      for (var i = 0; i < this.list.length; i++) {
-        if (this.list[i].id == e.target.id) {
-          this.list[i].checked = aValue;
-          break;
+        if (testNode.isRoot) {
+          if (testNode.isRoot == true) {
+            rootNodes.push(testNode);
+          }
         }
       }
 
-      if (this.props.checklistChecked) {
-        this.props.checklistChecked(this.list);
+      return rootNodes;
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "getChildNodes", function (node) {
+      var nodes = _this.state.nodes;
+      if (!node.children) return [];
+      return node.children.map(function (path) {
+        return nodes[path];
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "onToggle", function (node) {
+      var nodes = _this.state.nodes;
+      nodes[node.path].isOpen = !node.isOpen;
+
+      _this.setState({
+        nodes: nodes
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "onNodeSelect", function (node) {
+      var onSelect = _this.props.onSelect;
+
+      var prepped = _this.dataTools.deepCopy(_this.state.nodes);
+
+      for (var item in prepped) {
+        var testNode = prepped[item];
+        testNode.selected = false;
+
+        if (testNode.path == node.path) {
+          console.log("Selecting node: " + node.path);
+          testNode.selected = true;
+        }
       }
+
+      _this.setState({
+        nodes: prepped
+      }, function (e) {
+        onSelect(node);
+      });
+    });
+
+    _this.dataTools = new _KDataTools.default();
+    _this.state = {
+      nodes: _this.prep(props.data)
+    };
+    _this.onNodeSelect = _this.onNodeSelect.bind();
+    return _this;
+  }
+  /**
+   *
+   */
+
+
+  _createClass(KTree, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.data !== prevProps.data) {
+        this.setState({
+          nodes: this.prep(this.props.data)
+        });
+      }
+    }
+    /**
+     *
+     */
+
+  }, {
+    key: "prep",
+    value: function prep(data) {
+      var prepped = this.dataTools.deepCopy(data);
+
+      for (var item in prepped) {
+        var testNode = prepped[item];
+
+        if (!testNode.id) {
+          testNode.id = this.dataTools.uuidv4();
+        }
+
+        if (!testNode.selected) {
+          testNode.selected = false;
+        }
+      }
+
+      return prepped;
     }
     /**
      *
@@ -119,69 +169,37 @@ var KCheckList = /*#__PURE__*/function (_Component) {
 
   }, {
     key: "render",
-    value: function render() {
-      var classes = "kcheck-list klist-regular";
-      var style;
+    value:
+    /**
+     *
+     */
+    function render() {
+      var nodes = [];
+      var rootNodes = this.getRootNodes();
 
-      if (this.props.size) {
-        if (this.props.size == KButton.TINY) {
-          classes = "kcheck-list klist-tiny";
-        }
-
-        if (this.props.size == KButton.REGULAR) {
-          classes = "kcheck-list klist-regular";
-        }
-
-        if (this.props.size == KButton.MEDIUM) {
-          classes = "kcheck-list klist-medium";
-        }
-
-        if (this.props.size == KButton.LARGE) {
-          classes = "kcheck-list klist-large";
-        }
+      for (var i = 0; i < rootNodes.length; i++) {
+        nodes.push( /*#__PURE__*/_react.default.createElement(_KTreeNode.default, {
+          key: "treenode-root-" + i,
+          node: rootNodes[i],
+          getChildNodes: this.getChildNodes,
+          onToggle: this.onToggle,
+          onNodeSelect: this.onNodeSelect
+        }));
       }
 
-      if (this.props.style) {
-        style = this.props.style;
-      }
-
-      if (this.props.classes) {
-        classes = classes + " " + this.props.classes;
-      }
-
-      return /*#__PURE__*/_react.default.createElement("ul", {
-        className: classes,
-        style: style
-      }, /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "1",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Head"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "2",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Shoulders"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "3",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Knees"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "4",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Toes"));
+      return /*#__PURE__*/_react.default.createElement("div", {
+        key: "treeroot",
+        className: "ktree " + this.props.classes,
+        style: this.props.style
+      }, nodes);
     }
   }]);
 
-  return KCheckList;
+  return KTree;
 }(_react.Component);
 
-_defineProperty(KCheckList, "TINY", 'small');
-
-_defineProperty(KCheckList, "REGULAR", 'regular');
-
-_defineProperty(KCheckList, "MEDIUM", 'medium');
-
-_defineProperty(KCheckList, "LARGE", 'large');
-
-var _default = KCheckList;
+KTree.propTypes = {
+  onSelect: _propTypes.default.func.isRequired
+};
+var _default = KTree;
 exports.default = _default;

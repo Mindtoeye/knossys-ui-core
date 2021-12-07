@@ -9,9 +9,9 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _KCheckListItem = _interopRequireDefault(require("./KCheckListItem"));
+var _KDataTools = _interopRequireDefault(require("./utils/KDataTools"));
 
-require("./styles/lists.css");
+require("./styles/select.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44,24 +44,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * 
  */
-var KCheckList = /*#__PURE__*/function (_Component) {
-  _inherits(KCheckList, _Component);
+var KSelect = /*#__PURE__*/function (_Component) {
+  _inherits(KSelect, _Component);
 
-  var _super = _createSuper(KCheckList);
+  var _super = _createSuper(KSelect);
 
   /**
    * 
    */
-  function KCheckList(props) {
+  function KSelect(props) {
     var _this;
 
-    _classCallCheck(this, KCheckList);
+    _classCallCheck(this, KSelect);
 
     _this = _super.call(this, props);
-    _this.list = [];
-    _this.state = {};
-    _this.registerItem = _this.registerItem.bind(_assertThisInitialized(_this));
-    _this.onItemCheck = _this.onItemCheck.bind(_assertThisInitialized(_this));
+    _this.dataTools = new _KDataTools.default();
+    _this.state = {
+      selected: ""
+    };
     return _this;
   }
   /**
@@ -69,7 +69,7 @@ var KCheckList = /*#__PURE__*/function (_Component) {
    */
 
 
-  _createClass(KCheckList, [{
+  _createClass(KSelect, [{
     key: "componentDidMount",
     value: function componentDidMount() {//console.log ("componentDidMount ()");
     }
@@ -79,38 +79,21 @@ var KCheckList = /*#__PURE__*/function (_Component) {
 
   }, {
     key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
+    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");
     }
     /**
      *
      */
 
   }, {
-    key: "registerItem",
-    value: function registerItem(anId) {
-      //console.log ("registerItem ("+anId+")");
-      this.list.push({
-        id: anId,
-        checked: false
+    key: "handleChange",
+    value: function handleChange(e) {
+      this.setState({
+        selected: e.target.value
       });
-    }
-    /**
-     *
-     */
 
-  }, {
-    key: "onItemCheck",
-    value: function onItemCheck(e, aValue) {
-      //console.log ("onItemCheck ("+e.target.id+","+aValue+")");
-      for (var i = 0; i < this.list.length; i++) {
-        if (this.list[i].id == e.target.id) {
-          this.list[i].checked = aValue;
-          break;
-        }
-      }
-
-      if (this.props.checklistChecked) {
-        this.props.checklistChecked(this.list);
+      if (this.props.handleChange) {
+        this.props.handleChange(e.target.value);
       }
     }
     /**
@@ -120,24 +103,25 @@ var KCheckList = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var classes = "kcheck-list klist-regular";
       var style;
+      var options = [];
+      var classes = "kselect kselect-regular";
 
       if (this.props.size) {
-        if (this.props.size == KButton.TINY) {
-          classes = "kcheck-list klist-tiny";
+        if (this.props.size == KSelect.TINY) {
+          classes = "kselect kselect-tiny";
         }
 
-        if (this.props.size == KButton.REGULAR) {
-          classes = "kcheck-list klist-regular";
+        if (this.props.size == KSelect.REGULAR) {
+          classes = "kselect kselect-regular";
         }
 
-        if (this.props.size == KButton.MEDIUM) {
-          classes = "kcheck-list klist-medium";
+        if (this.props.size == KSelect.MEDIUM) {
+          classes = "kselect kselect-medium";
         }
 
-        if (this.props.size == KButton.LARGE) {
-          classes = "kcheck-list klist-large";
+        if (this.props.size == KSelect.LARGE) {
+          classes = "kselect kselect-large";
         }
       }
 
@@ -149,39 +133,32 @@ var KCheckList = /*#__PURE__*/function (_Component) {
         classes = classes + " " + this.props.classes;
       }
 
-      return /*#__PURE__*/_react.default.createElement("ul", {
+      if (this.props.options) {
+        for (var i = 0; i < this.props.options.length; i++) {
+          options.push( /*#__PURE__*/_react.default.createElement("option", {
+            key: "option-" + this.dataTools.uuidv4()
+          }, this.props.options[i]));
+        }
+      }
+
+      return /*#__PURE__*/_react.default.createElement("select", {
         className: classes,
-        style: style
-      }, /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "1",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Head"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "2",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Shoulders"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "3",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Knees"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "4",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Toes"));
+        style: style,
+        onChange: this.handleChange
+      }, options);
     }
   }]);
 
-  return KCheckList;
+  return KSelect;
 }(_react.Component);
 
-_defineProperty(KCheckList, "TINY", 'small');
+_defineProperty(KSelect, "TINY", 'small');
 
-_defineProperty(KCheckList, "REGULAR", 'regular');
+_defineProperty(KSelect, "REGULAR", 'regular');
 
-_defineProperty(KCheckList, "MEDIUM", 'medium');
+_defineProperty(KSelect, "MEDIUM", 'medium');
 
-_defineProperty(KCheckList, "LARGE", 'large');
+_defineProperty(KSelect, "LARGE", 'large');
 
-var _default = KCheckList;
+var _default = KSelect;
 exports.default = _default;

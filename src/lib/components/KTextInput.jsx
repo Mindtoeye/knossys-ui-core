@@ -43,8 +43,12 @@ class KTextInput extends Component {
   /**
    * 
    */
-  handleChange(event) {    
+  handleChange(event) {
     this.setState({value: event.target.value});  
+
+    if (this.props.handleChange) {
+      this.props.handleChange(event.target.value);
+    }
   }
 
   /**

@@ -54,6 +54,12 @@ var KButton = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, KButton);
 
     _this = _super.call(this, props);
+    /*
+    this.state = {      
+      enabled: true
+    };
+    */
+
     _this.state = {};
     _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
     return _this;
@@ -65,8 +71,7 @@ var KButton = /*#__PURE__*/function (_Component) {
 
   _createClass(KButton, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      console.log("componentDidMount ()");
+    value: function componentDidMount() {//console.log ("componentDidMount ()");
     }
     /**
      * 
@@ -74,7 +79,8 @@ var KButton = /*#__PURE__*/function (_Component) {
 
   }, {
     key: "componentWillUnmount",
-    value: function componentWillUnmount() {}
+    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");
+    }
     /**
      * 
      */
@@ -98,6 +104,12 @@ var KButton = /*#__PURE__*/function (_Component) {
       var button;
       var classes = "kbutton kbutton-regular";
       var style;
+
+      if (this.props.enabled) {
+        if (this.props.enabled == false) {
+          classes = classes + " kbutton-disabled";
+        }
+      }
 
       if (this.props.size) {
         if (this.props.size == KButton.TINY) {

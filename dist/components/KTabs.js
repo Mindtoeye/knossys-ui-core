@@ -9,9 +9,11 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _KCheckListItem = _interopRequireDefault(require("./KCheckListItem"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-require("./styles/lists.css");
+var _KTab = _interopRequireDefault(require("./KTab"));
+
+require("./styles/tabs.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44,24 +46,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * 
  */
-var KCheckList = /*#__PURE__*/function (_Component) {
-  _inherits(KCheckList, _Component);
+var KTabs = /*#__PURE__*/function (_Component) {
+  _inherits(KTabs, _Component);
 
-  var _super = _createSuper(KCheckList);
+  var _super = _createSuper(KTabs);
 
   /**
    * 
    */
-  function KCheckList(props) {
+  function KTabs(props) {
     var _this;
 
-    _classCallCheck(this, KCheckList);
+    _classCallCheck(this, KTabs);
 
     _this = _super.call(this, props);
-    _this.list = [];
-    _this.state = {};
-    _this.registerItem = _this.registerItem.bind(_assertThisInitialized(_this));
-    _this.onItemCheck = _this.onItemCheck.bind(_assertThisInitialized(_this));
+
+    _defineProperty(_assertThisInitialized(_this), "onClickTabItem", function (tab) {
+      _this.setState({
+        activeTab: tab
+      });
+    });
+
+    _this.state = {
+      activeTab: _this.props.children[0].props.label
+    };
     return _this;
   }
   /**
@@ -69,119 +77,43 @@ var KCheckList = /*#__PURE__*/function (_Component) {
    */
 
 
-  _createClass(KCheckList, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
-    }
+  _createClass(KTabs, [{
+    key: "render",
+    value:
     /**
      * 
      */
-
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "registerItem",
-    value: function registerItem(anId) {
-      //console.log ("registerItem ("+anId+")");
-      this.list.push({
-        id: anId,
-        checked: false
-      });
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "onItemCheck",
-    value: function onItemCheck(e, aValue) {
-      //console.log ("onItemCheck ("+e.target.id+","+aValue+")");
-      for (var i = 0; i < this.list.length; i++) {
-        if (this.list[i].id == e.target.id) {
-          this.list[i].checked = aValue;
-          break;
-        }
-      }
-
-      if (this.props.checklistChecked) {
-        this.props.checklistChecked(this.list);
-      }
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "render",
-    value: function render() {
-      var classes = "kcheck-list klist-regular";
-      var style;
-
-      if (this.props.size) {
-        if (this.props.size == KButton.TINY) {
-          classes = "kcheck-list klist-tiny";
-        }
-
-        if (this.props.size == KButton.REGULAR) {
-          classes = "kcheck-list klist-regular";
-        }
-
-        if (this.props.size == KButton.MEDIUM) {
-          classes = "kcheck-list klist-medium";
-        }
-
-        if (this.props.size == KButton.LARGE) {
-          classes = "kcheck-list klist-large";
-        }
-      }
-
-      if (this.props.style) {
-        style = this.props.style;
-      }
-
-      if (this.props.classes) {
-        classes = classes + " " + this.props.classes;
-      }
-
-      return /*#__PURE__*/_react.default.createElement("ul", {
-        className: classes,
-        style: style
-      }, /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "1",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Head"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "2",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Shoulders"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "3",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Knees"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "4",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Toes"));
+    function render() {
+      var onClickTabItem = this.onClickTabItem,
+          children = this.props.children,
+          activeTab = this.state.activeTab;
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "tabs"
+      }, /*#__PURE__*/_react.default.createElement("ol", {
+        className: "tab-list"
+      }, children.map(function (child) {
+        var label = child.props.label;
+        return /*#__PURE__*/_react.default.createElement(_KTab.default, {
+          activeTab: activeTab,
+          key: label,
+          label: label,
+          onClick: onClickTabItem
+        });
+      })), /*#__PURE__*/_react.default.createElement("div", {
+        className: "tab-content"
+      }, children.map(function (child) {
+        if (child.props.label !== activeTab) return undefined;
+        return child.props.children;
+      })));
     }
   }]);
 
-  return KCheckList;
+  return KTabs;
 }(_react.Component);
 
-_defineProperty(KCheckList, "TINY", 'small');
+_defineProperty(KTabs, "propTypes", {
+  children: _propTypes.default.instanceOf(Array).isRequired
+});
 
-_defineProperty(KCheckList, "REGULAR", 'regular');
-
-_defineProperty(KCheckList, "MEDIUM", 'medium');
-
-_defineProperty(KCheckList, "LARGE", 'large');
-
-var _default = KCheckList;
+var _default = KTabs;
 exports.default = _default;

@@ -9,11 +9,7 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _KCheckListItem = _interopRequireDefault(require("./KCheckListItem"));
-
 require("./styles/lists.css");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -39,29 +35,27 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /**
  * 
  */
-var KCheckList = /*#__PURE__*/function (_Component) {
-  _inherits(KCheckList, _Component);
+var KCheckListItem = /*#__PURE__*/function (_Component) {
+  _inherits(KCheckListItem, _Component);
 
-  var _super = _createSuper(KCheckList);
+  var _super = _createSuper(KCheckListItem);
 
   /**
    * 
    */
-  function KCheckList(props) {
+  function KCheckListItem(props) {
     var _this;
 
-    _classCallCheck(this, KCheckList);
+    _classCallCheck(this, KCheckListItem);
 
     _this = _super.call(this, props);
-    _this.list = [];
-    _this.state = {};
-    _this.registerItem = _this.registerItem.bind(_assertThisInitialized(_this));
-    _this.onItemCheck = _this.onItemCheck.bind(_assertThisInitialized(_this));
+    _this.state = {
+      checked: false
+    };
+    _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
@@ -69,9 +63,13 @@ var KCheckList = /*#__PURE__*/function (_Component) {
    */
 
 
-  _createClass(KCheckList, [{
+  _createClass(KCheckListItem, [{
     key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
+    value: function componentDidMount() {
+      //console.log ("componentDidMount ()");
+      if (this.props.register) {
+        this.props.register(this.props.id);
+      }
     }
     /**
      * 
@@ -79,38 +77,25 @@ var KCheckList = /*#__PURE__*/function (_Component) {
 
   }, {
     key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
+    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");
     }
     /**
-     *
+     * 
      */
 
   }, {
-    key: "registerItem",
-    value: function registerItem(anId) {
-      //console.log ("registerItem ("+anId+")");
-      this.list.push({
-        id: anId,
-        checked: false
+    key: "onClick",
+    value: function onClick(e) {
+      //console.log ("onClick ("+this.state.checked+")");
+      var toggle = this.state.checked; // flip the switch
+
+      toggle = !toggle;
+      this.setState({
+        checked: toggle
       });
-    }
-    /**
-     *
-     */
 
-  }, {
-    key: "onItemCheck",
-    value: function onItemCheck(e, aValue) {
-      //console.log ("onItemCheck ("+e.target.id+","+aValue+")");
-      for (var i = 0; i < this.list.length; i++) {
-        if (this.list[i].id == e.target.id) {
-          this.list[i].checked = aValue;
-          break;
-        }
-      }
-
-      if (this.props.checklistChecked) {
-        this.props.checklistChecked(this.list);
+      if (this.props.onItemCheck) {
+        this.props.onItemCheck(e, toggle);
       }
     }
     /**
@@ -120,68 +105,26 @@ var KCheckList = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var classes = "kcheck-list klist-regular";
-      var style;
+      var _this2 = this;
 
-      if (this.props.size) {
-        if (this.props.size == KButton.TINY) {
-          classes = "kcheck-list klist-tiny";
-        }
+      var classes = "kcheck-default";
 
-        if (this.props.size == KButton.REGULAR) {
-          classes = "kcheck-list klist-regular";
-        }
-
-        if (this.props.size == KButton.MEDIUM) {
-          classes = "kcheck-list klist-medium";
-        }
-
-        if (this.props.size == KButton.LARGE) {
-          classes = "kcheck-list klist-large";
-        }
+      if (this.state.checked == true) {
+        classes = "kcheck-checked";
       }
 
-      if (this.props.style) {
-        style = this.props.style;
-      }
-
-      if (this.props.classes) {
-        classes = classes + " " + this.props.classes;
-      }
-
-      return /*#__PURE__*/_react.default.createElement("ul", {
+      return /*#__PURE__*/_react.default.createElement("li", {
+        id: this.props.id,
         className: classes,
-        style: style
-      }, /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "1",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Head"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "2",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Shoulders"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "3",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Knees"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "4",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Toes"));
+        onClick: function onClick(e) {
+          return _this2.onClick(e);
+        }
+      }, this.props.children);
     }
   }]);
 
-  return KCheckList;
+  return KCheckListItem;
 }(_react.Component);
 
-_defineProperty(KCheckList, "TINY", 'small');
-
-_defineProperty(KCheckList, "REGULAR", 'regular');
-
-_defineProperty(KCheckList, "MEDIUM", 'medium');
-
-_defineProperty(KCheckList, "LARGE", 'large');
-
-var _default = KCheckList;
+var _default = KCheckListItem;
 exports.default = _default;

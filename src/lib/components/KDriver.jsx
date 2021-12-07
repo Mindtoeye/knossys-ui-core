@@ -59,6 +59,20 @@ class KDriver extends Component {
   }  
 
   /**
+   *
+   */
+  prompt (aMessage,aDefault) {
+    console.log ("prompt ()");
+
+    this.setState ({
+      show: true,
+      message: aMessage,
+      default: aDefault,
+      type: "prompt"
+    });
+  }    
+
+  /**
    * 
    */
   onOk () {
@@ -94,7 +108,7 @@ class KDriver extends Component {
 
     if (this.state.show==true) {
       scrim=<KScrim visible={true} />;
-      alertComponent=<KAlert type={this.state.type} message={this.state.message} onOk={this.onOk} onYes={this.onYes} onNo={this.onNo} />;
+      alertComponent=<KAlert type={this.state.type} message={this.state.message} default={this.state.default} onOk={this.onOk} onYes={this.onYes} onNo={this.onNo} />;
     }
 
     return (

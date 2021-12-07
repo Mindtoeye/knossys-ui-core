@@ -12,7 +12,7 @@ import KButton from './lib/components/KButton';
 import KTextInput from './lib/components/KTextInput';
 import KList from './lib/components/KList';
 import KCheckList from './lib/components/KCheckList';
-import KCheckListItem from './lib/components/KCheckListItem';
+import KRadioList from './lib/components/KRadioList';
 import KHorizontalSeparator from './lib/components/KHorizontalSeparator';
 import KSelect from './lib/components/KSelect';
 import KToggleSwitch from './lib/components/KToggleSwitch';
@@ -27,6 +27,44 @@ import './lib/components/styles/misc.css';
 import './lib/components/styles/accordion.css';
 import './lib/components/styles/driver.css';
 import './Drydock.css';
+
+const listRegular = [
+  {
+    name: "Banana",
+    checked: true
+  },
+  {
+    name: "Apple",
+    checked: false
+  },
+  {
+    name: "Orange",
+    checked: true
+  },
+  {
+    name: "Tomato",
+    checked: false
+  }
+];
+
+const listRadio = [
+  {
+    name: "Banana",
+    checked: true
+  },
+  {
+    name: "Apple",
+    checked: false
+  },
+  {
+    name: "Orange",
+    checked: false
+  },
+  {
+    name: "Tomato",
+    checked: false
+  }
+];
 
 const accordionData = [
   {
@@ -118,10 +156,24 @@ class Drydock extends Component {
 
     this.state = {
       toggled: false,
-      spinnerType: KWaitSpinner.SPINNER_STYLE_01
+      spinnerType: KWaitSpinner.SPINNER_STYLE_01,
+      tinytext: "Tiny",
+      regulartext: "Regular",
+      mediumtext: "Medium",
+      largetext: "Large",
+      hexvalue: "0x04",
+      floatvalue: "0.1",
+      intvalue: "0",
+      binaryvalue: "0"
     };
 
+    this.handleChangeTiny=this.handleChangeTiny.bind(this);
+    this.handleChangeRegular=this.handleChangeRegular.bind(this);
+    this.handleChangeMedium=this.handleChangeMedium.bind(this);
+    this.handleChangeLarge=this.handleChangeLarge.bind(this);
+
     this.checklistChecked=this.checklistChecked.bind(this);
+    this.radiolistChecked=this.radiolistChecked.bind(this);    
     this.onToolbarItemClick=this.onToolbarItemClick.bind(this);
     this.onToggleChange=this.onToggleChange.bind(this);
     this.onTreebarItemClick=this.onTreebarItemClick.bind(this);
@@ -129,6 +181,84 @@ class Drydock extends Component {
 
     this.onAlert=this.onAlert.bind(this);
     this.onConfirm=this.onConfirm.bind(this);
+    this.onPrompt=this.onPrompt.bind(this);
+
+    this.handleChangeHex=this.handleChangeHex.bind(this);
+    this.handleChangeInteger=this.handleChangeInteger.bind(this);
+    this.handleChangeFloat=this.handleChangeFloat.bind(this);
+    this.handleChangeBinary=this.handleChangeBinary.bind(this);
+  }
+
+  /**
+   *
+   */
+  handleChangeTiny (aValue) {
+    this.setState({
+      tinytext: aValue
+    });
+  }
+
+  /**
+   *
+   */
+  handleChangeRegular (aValue) {
+    this.setState({
+      regulartext: aValue
+    });
+  }
+
+  /**
+   *
+   */
+  handleChangeMedium (aValue) {
+    this.setState({
+      mediumtext: aValue
+    });
+  }
+
+  /**
+   *
+   */
+  handleChangeHex (aValue) {
+    this.setState({
+      hexvalue: aValue
+    });
+  }
+
+  /**
+   *
+   */
+  handleChangeInteger (aValue) {
+    this.setState({
+      intvalue: aValue
+    });
+  }
+
+  /**
+   *
+   */
+  handleChangeFloat (aValue) {
+    this.setState({
+      floatvalue: aValue
+    });
+  }    
+
+  /**
+   *
+   */
+  handleChangeBinary (aValue) {
+    this.setState({
+      binaryvalue: aValue
+    });
+  }      
+
+  /**
+   *
+   */
+  handleChangeLarge (aValue) {
+    this.setState({
+      largetext: aValue
+    });
   }
 
   /**
@@ -145,6 +275,13 @@ class Drydock extends Component {
   onConfirm () {
     window.knossys.confirm ("Generic confirm replacement");
   }
+
+  /**
+   *
+   */
+  onPrompt () {
+    window.knossys.prompt ("Please enter your name", "Harry Potter");
+  }  
 
   /**
    *
@@ -166,9 +303,19 @@ class Drydock extends Component {
    *
    */
   checklistChecked (aList) {
-    //console.log ("checklistChecked ()");
+    console.log ("checklistChecked ()");
     //console.log (JSON.stringify (aList, null, 2));
+
   }
+
+  /**
+   *
+   */
+  radiolistChecked (aList) {
+    console.log ("radiolistChecked ()");
+    //console.log (JSON.stringify (aList, null, 2));
+
+  }  
 
   /**
    *
@@ -206,17 +353,17 @@ class Drydock extends Component {
    *
    */
   changeSpinner (e) {
-     let currentType=this.state.spinnerType;
+    let currentType=this.state.spinnerType;
+ 
+    currentType++;
 
-     currentType++;
-
-     if (currentType>KWaitSpinner.SPINNER_STYLE_10) {
+    if (currentType>KWaitSpinner.SPINNER_STYLE_10) {
       currentType=KWaitSpinner.SPINNER_STYLE_01;
-     }
+    }
 
-     this.setState ({
+    this.setState ({
       spinnerType: currentType
-     });
+    });
   }
 
   /**
@@ -225,6 +372,9 @@ class Drydock extends Component {
   render () {
     return (
       <KDriver>
+
+       <div className="klabel" style={{position: "absolute", top: "8px", left:"8px", fontSize: "15pt"}}>Built-in Component Palette</div>
+
        <KnossysInfoPanel label="Buttons" style={{left: "50px", top: "50px"}}>
           <KButton size={KButton.TINY} onClick={this.onClick} style={{margin: "2px"}}>
           Tiny
@@ -249,41 +399,57 @@ class Drydock extends Component {
           </KButton>
        </KnossysInfoPanel>
 
-       <KnossysInfoPanel label="Text Input" style={{left: "250px", top: "50px", width: "200px"}}>
-          <KTextInput size={KTextInput.TINY} style={{width: "100%"}}>
-          Tiny
-          </KTextInput>
+       <KnossysInfoPanel label="Text Input" style={{left: "250px", top: "50px", width: "200px", height: "350px"}}>
+          <KTextInput size={KTextInput.TINY} style={{width: "100%"}} value={this.state.tinytext} handleChange={this.handleChangeTiny}></KTextInput>
 
           <br/>
 
-          <KTextInput size={KTextInput.REGULAR} style={{width: "100%"}}>
-          Regular
-          </KTextInput>
+          <KTextInput size={KTextInput.REGULAR} style={{width: "100%"}} value={this.state.regulartext} handleChange={this.handleChangeRegular}></KTextInput>
 
           <br/>
 
-          <KTextInput size={KTextInput.MEDIUM} style={{width: "100%"}}>
-          Medium
-          </KTextInput>
+          <KTextInput size={KTextInput.MEDIUM} style={{width: "100%"}} value={this.state.mediumtext} handleChange={this.handleChangeMedium}></KTextInput>
 
           <br/>
 
-          <KTextInput size={KTextInput.LARGE} style={{width: "100%"}}>
-          Large
-          </KTextInput>
+          <KTextInput size={KTextInput.LARGE} style={{width: "100%"}} value={this.state.largetext} handleChange={this.handleChangeLarge}></KTextInput>
+
+          <div className="klabel">Hexadecimal String:</div>
+
+          <KTextInput type={KTextInput.TYPE_HEX} size={KTextInput.REGULAR} style={{width: "100%"}} value={this.state.hexvalue} handleChange={this.handleChangeHex}></KTextInput>
+
+          <br/>
+          <div className="klabel">Integer String:</div>
+
+          <KTextInput type={KTextInput.TYPE_ALPHANUMERIC} size={KTextInput.REGULAR} style={{width: "100%"}} value={this.state.intvalue} handleChange={this.handleChangeInteger}></KTextInput>          
+
+          <br/>
+          <div className="klabel">Float String:</div>
+
+          <KTextInput type={KTextInput.TYPE_ALPHAFLOAT} size={KTextInput.REGULAR} style={{width: "100%"}} value={this.state.floatvalue} handleChange={this.handleChangeFloat}></KTextInput>
+
+          <br/>
+          <div className="klabel">Binary String:</div>
+
+          <KTextInput type={KTextInput.TYPE_BINARY} size={KTextInput.REGULAR} style={{width: "100%"}} value={this.state.binaryvalue} handleChange={this.handleChangeBinary}></KTextInput>
+
        </KnossysInfoPanel>
 
-       <KnossysInfoPanel label="Lists" style={{left: "50px", top: "252px", height: "197px"}}>
+       <KnossysInfoPanel label="Lists" style={{left: "50px", top: "243px", height: "268px"}}>
+
         <KList />
         
         <KHorizontalSeparator />
         
-        <KCheckList checklistChecked={(list) => this.checklistChecked (list)} />
+        <KCheckList list={listRegular} checklistChecked={(list) => this.checklistChecked (list)} />
 
         <KHorizontalSeparator />
+
+        <KRadioList list={listRadio} radiolistChecked={(list) => this.radiolistChecked (list)} />
+
        </KnossysInfoPanel>
 
-       <KnossysInfoPanel label="Toolbars" style={{left: "50px", top: "484px", height: "200px"}}>
+       <KnossysInfoPanel label="Toolbars" style={{left: "50px", top: "534px", height: "234px"}}>
         <KToolbar>
           <KToolbarItem onClick={this.onToolbarItemClick}><FaFile /></KToolbarItem>
           <KToolbarItem onClick={this.onToolbarItemClick}><FaFolder /></KToolbarItem>
@@ -301,30 +467,35 @@ class Drydock extends Component {
         </KToolbar>        
        </KnossysInfoPanel>       
 
-       <KnossysInfoPanel label="Dropdowns" style={{left: "253px", top: "252px", width: "200px", height: "216px"}}>
+       <KnossysInfoPanel label="Dropdowns" style={{left: "250px", top: "422px", width: "200px", height: "181px"}}>
          <KSelect size={KSelect.TINY} style={{width: "100%"}} options={["Banana","Apple","Orange","Tomato"]} />
          <KSelect size={KSelect.REGULAR} style={{width: "100%"}} options={["Banana","Apple","Orange","Tomato"]} />
          <KSelect size={KSelect.MEDIUM} style={{width: "100%"}} options={["Banana","Apple","Orange","Tomato"]} />
          <KSelect size={KSelect.LARGE} style={{width: "100%"}} options={["Banana","Apple","Orange","Tomato"]} />
        </KnossysInfoPanel>
 
-       <KnossysInfoPanel label="Toggles" style={{left: "253px", top: "484px", width: "200px", height: "216px"}}>
+       <KnossysInfoPanel label="Toggles" style={{left: "250px", top: "624px", width: "200px", height: "142px"}}>
          <KToggleSwitch id="default" checked={this.state.toggled} onChange={this.onToggleChange}/>
        </KnossysInfoPanel>
 
        <KnossysInfoPanel label="Global/Environmnent" style={{left: "476px", top: "427px", width: "225px", height: "57px"}}>
           <KButton size={KButton.REGULAR} onClick={this.onAlert} style={{margin: "2px"}}>
-          alert();
+          alert
           </KButton>
           <KButton size={KButton.REGULAR} onClick={this.onConfirm} style={{margin: "2px"}}>
-          confirm();
-          </KButton>                   
-       </KnossysInfoPanel>       
+          confirm
+          </KButton>
+          <KButton size={KButton.REGULAR} onClick={this.onPrompt} style={{margin: "2px"}}>
+          prompt
+          </KButton>                       
+       </KnossysInfoPanel>
 
        <KnossysInfoPanel label="Wait Spinners" style={{left: "476px", top: "505px", width: "227px", height: "267px", display: "flex", flexDirection: "column"}}>
           <div style={{position: "relative", border: "0px solid yellow", flex: "1"}}>            
-            <KWaitSpinner type={this.state.spinnerType} onClick={(e) => this.changeSpinner(e)}/>
-            <div className="kreference"><a target="_blank" href="https://codepen.io/nikhil8krishnan">Original by Nikhil Krishnan</a></div>
+            <KWaitSpinner type={this.state.spinnerType} style={{top: "5px", width: "32px", height: "32px"}} onClick={(e) => this.changeSpinner(e)}/>
+            <KWaitSpinner type={this.state.spinnerType} style={{top: "47px", width: "50px", height: "50px"}} onClick={(e) => this.changeSpinner(e)}/>
+            <KWaitSpinner type={this.state.spinnerType} style={{top: "105px", width: "75px", height: "75px"}} onClick={(e) => this.changeSpinner(e)}/>            
+            <div className="kreference"><a target="_blank" href="https://codepen.io/nikhil8krishnan/pen/rVoXJa">Original by Nikhil Krishnan</a></div>
           </div>
        </KnossysInfoPanel>       
 

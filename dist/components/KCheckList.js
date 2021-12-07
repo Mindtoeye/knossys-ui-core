@@ -9,6 +9,8 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _KDataTools = _interopRequireDefault(require("./utils/KDataTools"));
+
 var _KCheckListItem = _interopRequireDefault(require("./KCheckListItem"));
 
 require("./styles/lists.css");
@@ -58,41 +60,26 @@ var KCheckList = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, KCheckList);
 
     _this = _super.call(this, props);
-    _this.list = [];
-    _this.state = {};
-    _this.registerItem = _this.registerItem.bind(_assertThisInitialized(_this));
+    _this.dataTools = new _KDataTools.default();
+    _this.state = {
+      list: props.list
+    };
     _this.onItemCheck = _this.onItemCheck.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
-   * 
+   *
    */
 
 
   _createClass(KCheckList, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
-    }
-    /**
-     * 
-     */
-
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "registerItem",
-    value: function registerItem(anId) {
-      //console.log ("registerItem ("+anId+")");
-      this.list.push({
-        id: anId,
-        checked: false
-      });
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.list !== prevProps.list) {
+        this.setState({
+          list: this.props.list
+        });
+      }
     }
     /**
      *
@@ -100,18 +87,46 @@ var KCheckList = /*#__PURE__*/function (_Component) {
 
   }, {
     key: "onItemCheck",
-    value: function onItemCheck(e, aValue) {
-      //console.log ("onItemCheck ("+e.target.id+","+aValue+")");
-      for (var i = 0; i < this.list.length; i++) {
-        if (this.list[i].id == e.target.id) {
-          this.list[i].checked = aValue;
-          break;
+    value: function onItemCheck(anIndex) {
+      var newList = this.dataTools.deepCopy(this.state.list);
+
+      for (var i = 0; i < newList.length; i++) {
+        if (anIndex == i) {
+          if (newList[i].checked == true) {
+            newList[i].checked = false;
+          } else {
+            newList[i].checked = true;
+          }
         }
       }
 
+      this.setState({
+        list: newList
+      });
+
       if (this.props.checklistChecked) {
-        this.props.checklistChecked(this.list);
+        this.props.checklistChecked(newList);
       }
+    }
+    /**
+     *
+     */
+
+  }, {
+    key: "renderItems",
+    value: function renderItems() {
+      var items = [];
+
+      for (var i = 0; i < this.state.list.length; i++) {
+        items.push( /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
+          key: this.dataTools.uuidv4(),
+          id: i,
+          onItemCheck: this.onItemCheck,
+          item: this.state.list[i]
+        }));
+      }
+
+      return items;
     }
     /**
      *
@@ -122,6 +137,7 @@ var KCheckList = /*#__PURE__*/function (_Component) {
     value: function render() {
       var classes = "kcheck-list klist-regular";
       var style;
+      var items;
 
       if (this.props.size) {
         if (this.props.size == KButton.TINY) {
@@ -149,26 +165,11 @@ var KCheckList = /*#__PURE__*/function (_Component) {
         classes = classes + " " + this.props.classes;
       }
 
+      items = this.renderItems();
       return /*#__PURE__*/_react.default.createElement("ul", {
         className: classes,
         style: style
-      }, /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "1",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Head"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "2",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Shoulders"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "3",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Knees"), /*#__PURE__*/_react.default.createElement(_KCheckListItem.default, {
-        id: "4",
-        register: this.registerItem,
-        onItemCheck: this.onItemCheck
-      }, "Toes"));
+      }, items);
     }
   }]);
 

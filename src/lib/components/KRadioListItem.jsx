@@ -6,7 +6,7 @@ import './styles/lists.css';
 /**
  * 
  */
-class KCheckListItem extends Component {
+class KRadioListItem extends Component {
 
   /**
    * 
@@ -31,10 +31,10 @@ class KCheckListItem extends Component {
    */
   render () {
     let item=this.props.item;
-    let classes="kcheck-default";
+    let classes="kradio-default";
 
     if (item.checked==true) {
-      classes="kcheck-checked";
+      classes="kradio-checked";
     }
 
     return (
@@ -43,4 +43,4 @@ class KCheckListItem extends Component {
   }
 }
 
-export default KCheckListItem;
+export default KRadioListItem;

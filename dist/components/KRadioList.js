@@ -9,7 +9,13 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-require("./styles/textinput.css");
+var _KDataTools = _interopRequireDefault(require("./utils/KDataTools"));
+
+var _KRadioListItem = _interopRequireDefault(require("./KRadioListItem"));
+
+require("./styles/lists.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -37,149 +43,88 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var extract = function extract(str, pattern) {
-  return (str.match(pattern) || []).pop() || '';
-};
-
-var extractHexadecimal = function extractHexadecimal(str) {
-  return extract(str, "0x[0-9a-fA-F]+");
-};
-
-var extractAlphanum = function extractAlphanum(str) {
-  return extract(str, "[-+]*[0-9]+");
-};
-
-var extractAlphaFloat = function extractAlphaFloat(str) {
-  return extract(str, "[-+]?([0-9]*\.[0-9]*)");
-};
-
-var extractBinary = function extractBinary(str) {
-  return extract(str, "[0-1]+");
-};
-
-var not = function not(aValue) {
-  if (aValue == true) {
-    return false;
-  }
-
-  return true;
-};
 /**
  * 
  */
+var KRadioList = /*#__PURE__*/function (_Component) {
+  _inherits(KRadioList, _Component);
 
-
-var KTextInput = /*#__PURE__*/function (_Component) {
-  _inherits(KTextInput, _Component);
-
-  var _super = _createSuper(KTextInput);
+  var _super = _createSuper(KRadioList);
 
   /**
    * 
    */
-  function KTextInput(props) {
+  function KRadioList(props) {
     var _this;
 
-    _classCallCheck(this, KTextInput);
+    _classCallCheck(this, KRadioList);
 
     _this = _super.call(this, props);
-    var type = KTextInput.TYPE_STRING;
-
-    if (props.type) {
-      type = props.type;
-    }
-
+    _this.dataTools = new _KDataTools.default();
     _this.state = {
-      value: props.value,
-      type: type
+      list: props.list
     };
-    _this.handleTextChange = _this.handleTextChange.bind(_assertThisInitialized(_this));
+    _this.onItemCheck = _this.onItemCheck.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
-   * 
+   *
    */
 
 
-  _createClass(KTextInput, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
-    }
-    /**
-     * 
-     */
-
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
+  _createClass(KRadioList, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.list !== prevProps.list) {
+        this.setState({
+          list: this.props.list
+        });
+      }
     }
     /**
      *
      */
 
   }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      if (this.props.value !== prevProps.value) {
-        this.setState({
-          value: this.props.value
-        });
+    key: "onItemCheck",
+    value: function onItemCheck(anIndex) {
+      var newList = this.dataTools.deepCopy(this.state.list);
+
+      for (var i = 0; i < newList.length; i++) {
+        newList[i].checked = false;
+
+        if (anIndex == i) {
+          newList[i].checked = true;
+        }
+      }
+
+      this.setState({
+        list: newList
+      });
+
+      if (this.props.radiolistChecked) {
+        this.props.radiolistChecked(newList);
       }
     }
     /**
-     * 
+     *
      */
 
   }, {
-    key: "handleTextChange",
-    value: function handleTextChange(aValue) {
-      console.log("handleTextChange (" + aValue + ")");
-      var value = aValue;
+    key: "renderItems",
+    value: function renderItems() {
+      var items = [];
 
-      if (this.state.type == KTextInput.TYPE_HEX) {
-        if (aValue.length <= 2) {
-          value = "0x0";
-        } else {
-          value = extractHexadecimal(aValue);
-        }
-
-        console.log("Hex value: " + value);
+      for (var i = 0; i < this.state.list.length; i++) {
+        items.push( /*#__PURE__*/_react.default.createElement(_KRadioListItem.default, {
+          key: this.dataTools.uuidv4(),
+          id: i,
+          onItemCheck: this.onItemCheck,
+          item: this.state.list[i]
+        }));
       }
 
-      if (this.state.type == KTextInput.TYPE_ALPHANUMERIC) {
-        if (aValue == "") {
-          value = "0";
-        } else {
-          value = parseInt(extractAlphanum(aValue));
-        }
-
-        console.log("Integer value: " + value);
-      }
-
-      if (this.state.type == KTextInput.TYPE_ALPHAFLOAT) {
-        if (aValue == "") {
-          value = "0.0";
-        } else {
-          value = extractAlphaFloat(aValue);
-        }
-
-        console.log("Float value: " + value);
-      }
-
-      if (this.state.type == KTextInput.TYPE_BINARY) {
-        if (aValue == "") {
-          value = 0;
-        } else {
-          value = extractBinary(aValue);
-        }
-
-        console.log("Binary value: " + value);
-      }
-
-      if (this.props.handleChange) {
-        //console.log ("Propagating ...");
-        this.props.handleChange(value);
-      }
+      return items;
     }
     /**
      *
@@ -188,26 +133,25 @@ var KTextInput = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      var classes = "ktextinput ktextinput-regular";
+      var classes = "kradio-list klist-regular";
       var style;
+      var items;
 
       if (this.props.size) {
-        if (this.props.size == KTextInput.TINY) {
-          classes = "ktextinput ktextinput-tiny";
+        if (this.props.size == KButton.TINY) {
+          classes = "kradio-list klist-tiny";
         }
 
-        if (this.props.size == KTextInput.REGULAR) {
-          classes = "ktextinput ktextinput-regular";
+        if (this.props.size == KButton.REGULAR) {
+          classes = "kradio-list klist-regular";
         }
 
-        if (this.props.size == KTextInput.MEDIUM) {
-          classes = "ktextinput ktextinput-medium";
+        if (this.props.size == KButton.MEDIUM) {
+          classes = "kradio-list klist-medium";
         }
 
-        if (this.props.size == KTextInput.LARGE) {
-          classes = "ktextinput ktextinput-large";
+        if (this.props.size == KButton.LARGE) {
+          classes = "kradio-list klist-large";
         }
       }
 
@@ -219,38 +163,24 @@ var KTextInput = /*#__PURE__*/function (_Component) {
         classes = classes + " " + this.props.classes;
       }
 
-      return /*#__PURE__*/_react.default.createElement("input", {
-        type: "text",
+      items = this.renderItems();
+      return /*#__PURE__*/_react.default.createElement("ul", {
         className: classes,
-        style: style,
-        value: this.state.value,
-        onChange: function onChange(e) {
-          return _this2.handleTextChange(e.target.value);
-        }
-      });
+        style: style
+      }, items);
     }
   }]);
 
-  return KTextInput;
+  return KRadioList;
 }(_react.Component);
 
-_defineProperty(KTextInput, "TINY", 'small');
+_defineProperty(KRadioList, "TINY", 'small');
 
-_defineProperty(KTextInput, "REGULAR", 'regular');
+_defineProperty(KRadioList, "REGULAR", 'regular');
 
-_defineProperty(KTextInput, "MEDIUM", 'medium');
+_defineProperty(KRadioList, "MEDIUM", 'medium');
 
-_defineProperty(KTextInput, "LARGE", 'large');
+_defineProperty(KRadioList, "LARGE", 'large');
 
-_defineProperty(KTextInput, "TYPE_STRING", 0);
-
-_defineProperty(KTextInput, "TYPE_HEX", 1);
-
-_defineProperty(KTextInput, "TYPE_ALPHANUMERIC", 2);
-
-_defineProperty(KTextInput, "TYPE_ALPHAFLOAT", 3);
-
-_defineProperty(KTextInput, "TYPE_BINARY", 4);
-
-var _default = KTextInput;
+var _default = KRadioList;
 exports.default = _default;

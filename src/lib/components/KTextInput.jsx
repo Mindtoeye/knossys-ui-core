@@ -1,7 +1,18 @@
-
 import React, { Component } from 'react';
 
 import './styles/textinput.css';
+
+const extract = (str, pattern) => (str.match(pattern) || []).pop() || '';
+
+const extractHexadecimal = (str) => extract(str, "0x[0-9a-fA-F]+");
+
+const extractAlphanum = (str) => extract(str, "[-+]*[0-9]+");
+
+const extractAlphaFloat = (str) => extract(str, "[-+]?([0-9]*\.[0-9]*)");
+
+const extractBinary = (str) => extract(str, "[0-1]+");
+
+const not = (aValue) => {if (aValue==true) {return (false);} return (true);}
 
 /**
  * 
@@ -13,17 +24,30 @@ class KTextInput extends Component {
   static MEDIUM = 'medium';
   static LARGE = 'large';
 
+  static TYPE_STRING = 0;
+  static TYPE_HEX = 1;
+  static TYPE_ALPHANUMERIC = 2;
+  static TYPE_ALPHAFLOAT = 3;
+  static TYPE_BINARY = 4;
+
   /**
    * 
    */
   constructor (props) {
     super (props);
 
+    let type=KTextInput.TYPE_STRING;
+ 
+    if (props.type) {
+      type=props.type;
+    }
+
     this.state = {
-      value: props.children   
+      value: props.value,
+      type: type
     };
 
-    this.handleChange=this.handleChange.bind(this);
+    this.handleTextChange=this.handleTextChange.bind(this);
   }
 
   /**
@@ -41,13 +65,67 @@ class KTextInput extends Component {
   }
 
   /**
+   *
+   */
+  componentDidUpdate(prevProps) {   
+    if (this.props.value !== prevProps.value) {
+      this.setState ({     
+        value: this.props.value
+      });
+    }
+  }
+
+  /**
    * 
    */
-  handleChange(event) {
-    this.setState({value: event.target.value});  
+  handleTextChange(aValue) {    
+    console.log ("handleTextChange ("+aValue+")");
+
+    let value=aValue;
+
+    if (this.state.type==KTextInput.TYPE_HEX) {
+      if (aValue.length<=2) {
+        value="0x0";
+      } else {
+        value=extractHexadecimal(aValue);
+      }
+      console.log ("Hex value: " + value);
+    }
+
+    if (this.state.type==KTextInput.TYPE_ALPHANUMERIC) {
+      if (aValue=="") {
+        value="0";
+      } else {
+        value=parseInt(extractAlphanum(aValue));
+      }
+
+      console.log ("Integer value: " + value);
+    }
+
+    if (this.state.type==KTextInput.TYPE_ALPHAFLOAT) {
+      if (aValue=="") {
+        value="0.0";
+      } else {
+        value=extractAlphaFloat(aValue);
+      }
+
+      console.log ("Float value: " + value);
+    }
+
+    if (this.state.type==KTextInput.TYPE_BINARY) {
+      if (aValue=="") {
+        value=0;
+      } else {
+        value=extractBinary(aValue);
+      }
+
+      console.log ("Binary value: " + value);
+    }
+
 
     if (this.props.handleChange) {
-      this.props.handleChange(event.target.value);
+      //console.log ("Propagating ...");
+      this.props.handleChange(value);
     }
   }
 
@@ -85,7 +163,7 @@ class KTextInput extends Component {
     }
 
     return (
-      <input type="text" className={classes} style={style} value={this.state.value} onChange={this.handleChange} />
+      <input type="text" className={classes} style={style} value={this.state.value} onChange={(e) => this.handleTextChange (e.target.value)} />
     );
   }
 }

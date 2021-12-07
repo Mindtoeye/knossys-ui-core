@@ -4,6 +4,8 @@ import KTextInput from './components/KTextInput';
 import KList from './components/KList';
 import KCheckList from './components/KCheckList';
 import KCheckListItem from './components/KCheckListItem';
+import KRadioList from './components/KRadioList';
+import KRadioListItem from './components/KRadioListItem';
 import KHorizontalSeparator from './components/KHorizontalSeparator';
 import KSelect from './components/KSelect';
 import KToggleSwitch from './components/KToggleSwitch';
@@ -22,8 +24,10 @@ export {
   KTextInput, 
   KList, 
   KCheckList, 
+  KCheckListItem, 
+  KRadioList,   
+  KRadioListItem, 
   KHorizontalSeparator,
-  KCheckListItem,
   KSelect,
   KToggleSwitch,
   KAccordion,

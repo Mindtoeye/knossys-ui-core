@@ -90,6 +90,10 @@ class KButton extends Component {
       style=this.props.style;
     }
 
+    if (this.props.styles) {
+      style=this.props.styles;
+    }    
+
     if (this.props.classes) {
       classes=classes + " " + this.props.classes;
     }

@@ -9,21 +9,19 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _fa = require("react-icons/fa");
+var _KScrim = _interopRequireDefault(require("./KScrim"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _KAlert = _interopRequireDefault(require("./KAlert"));
 
-var _KDataTools = _interopRequireDefault(require("./utils/KDataTools"));
+require("./styles/driver.css");
 
-require("./styles/tree.css");
+require("./styles/main.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -45,130 +43,145 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var getPaddingLeft = function getPaddingLeft(level, type) {
-  var paddingLeft = level * 15;
-  if (type === 'file') paddingLeft += 5;
-  return paddingLeft;
-};
-
-var getNodeLabel = function getNodeLabel(node) {
-  var splitter = node.path.split('/');
-  return splitter[splitter.length - 1];
-};
 /**
- *
+ * 
  */
+var KDriver = /*#__PURE__*/function (_Component) {
+  _inherits(KDriver, _Component);
 
-
-var KTreeNode = /*#__PURE__*/function (_Component) {
-  _inherits(KTreeNode, _Component);
-
-  var _super = _createSuper(KTreeNode);
+  var _super = _createSuper(KDriver);
 
   /**
-   * 
+   * This constructor will in some sense rebuild or augment the browser environment
+   * such that developers can stay inside the same unified and standardized 
+   * expectations
    */
-  function KTreeNode(props) {
+  function KDriver(props) {
     var _this;
 
-    _classCallCheck(this, KTreeNode);
+    _classCallCheck(this, KDriver);
 
     _this = _super.call(this, props);
-    _this.dataTools = new _KDataTools.default();
+    _this.state = {
+      show: false,
+      message: "",
+      type: "alert"
+    };
+    window.knossys = _assertThisInitialized(_this);
+    _this.onOk = _this.onOk.bind(_assertThisInitialized(_this));
+    _this.onYes = _this.onYes.bind(_assertThisInitialized(_this));
+    _this.onNo = _this.onNo.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
-   * 
+   *
    */
 
 
-  _createClass(KTreeNode, [{
+  _createClass(KDriver, [{
+    key: "alert",
+    value: function alert(aMessage) {
+      console.log("alert ()");
+      this.setState({
+        show: true,
+        message: aMessage,
+        type: "alert"
+      });
+    }
+    /**
+     *
+     */
+
+  }, {
+    key: "confirm",
+    value: function confirm(aMessage) {
+      console.log("confirm ()");
+      this.setState({
+        show: true,
+        message: aMessage,
+        type: "confirm"
+      });
+    }
+    /**
+     *
+     */
+
+  }, {
+    key: "prompt",
+    value: function prompt(aMessage, aDefault) {
+      console.log("prompt ()");
+      this.setState({
+        show: true,
+        message: aMessage,
+        default: aDefault,
+        type: "prompt"
+      });
+    }
+    /**
+     * 
+     */
+
+  }, {
+    key: "onOk",
+    value: function onOk() {
+      this.setState({
+        show: false
+      });
+    }
+    /**
+     * 
+     */
+
+  }, {
+    key: "onYes",
+    value: function onYes() {
+      this.setState({
+        show: false
+      });
+    }
+    /**
+     * 
+     */
+
+  }, {
+    key: "onNo",
+    value: function onNo() {
+      this.setState({
+        show: false
+      });
+    }
+    /**
+     *
+     */
+
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var scrim;
+      var alertComponent;
 
-      var _this$props = this.props,
-          node = _this$props.node,
-          getChildNodes = _this$props.getChildNodes,
-          level = _this$props.level,
-          type = _this$props.type,
-          onToggle = _this$props.onToggle,
-          onNodeSelect = _this$props.onNodeSelect;
-      var padding = getPaddingLeft(level, type);
-      var treeclass;
-
-      if (node.selected) {
-        if (node.selected == true) {
-          treeclass = "kselected";
-        }
+      if (this.state.show == true) {
+        scrim = /*#__PURE__*/_react.default.createElement(_KScrim.default, {
+          visible: true
+        });
+        alertComponent = /*#__PURE__*/_react.default.createElement(_KAlert.default, {
+          type: this.state.type,
+          message: this.state.message,
+          default: this.state.default,
+          onOk: this.onOk,
+          onYes: this.onYes,
+          onNo: this.onNo
+        });
       }
 
-      var chevron;
-      var marginLeft = "0px";
-
-      if (node.type == 'file') {
-        marginLeft = "4px";
-      }
-
-      if (node.children) {
-        if (node.children.length > 0) {
-          chevron = /*#__PURE__*/_react.default.createElement("div", {
-            key: this.dataTools.uuidv4(),
-            style: {
-              marginRight: "5px"
-            },
-            onClick: function onClick() {
-              return onToggle(node);
-            }
-          }, node.type === 'folder' && (node.isOpen ? /*#__PURE__*/_react.default.createElement(_fa.FaChevronDown, null) : /*#__PURE__*/_react.default.createElement(_fa.FaChevronRight, null)));
-        }
-      }
-
-      return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
-        key: this.dataTools.uuidv4(),
-        className: "ktreenode",
-        style: {
-          paddingLeft: padding
-        }
-      }, chevron, /*#__PURE__*/_react.default.createElement("div", {
-        key: this.dataTools.uuidv4(),
-        style: {
-          fontSize: "12px",
-          marginRight: "4px",
-          marginLeft: marginLeft
-        },
-        onClick: function onClick() {
-          return onNodeSelect(node);
-        }
-      }, node.type === 'file' && /*#__PURE__*/_react.default.createElement(_fa.FaFile, null), node.type === 'folder' && node.isOpen === true && /*#__PURE__*/_react.default.createElement(_fa.FaFolderOpen, null), node.type === 'folder' && !node.isOpen && /*#__PURE__*/_react.default.createElement(_fa.FaFolder, null)), /*#__PURE__*/_react.default.createElement("span", {
-        className: treeclass,
-        role: "button",
-        onClick: function onClick() {
-          return onNodeSelect(node);
-        }
-      }, getNodeLabel(node))), node.isOpen && getChildNodes(node).map(function (childNode) {
-        return /*#__PURE__*/_react.default.createElement(KTreeNode, _extends({
-          key: _this2.dataTools.uuidv4()
-        }, _this2.props, {
-          node: childNode,
-          level: level + 1
-        }));
-      }));
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "kdesktop-content knossys-dark"
+      }, this.props.children, scrim, alertComponent);
     }
   }]);
 
-  return KTreeNode;
+  return KDriver;
 }(_react.Component);
 
-KTreeNode.propTypes = {
-  node: _propTypes.default.object.isRequired,
-  getChildNodes: _propTypes.default.func.isRequired,
-  level: _propTypes.default.number.isRequired,
-  onToggle: _propTypes.default.func.isRequired,
-  onNodeSelect: _propTypes.default.func.isRequired
-};
-KTreeNode.defaultProps = {
-  level: 0
-};
-var _default = KTreeNode;
+var _default = KDriver;
 exports.default = _default;

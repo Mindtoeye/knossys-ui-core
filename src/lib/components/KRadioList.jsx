@@ -2,14 +2,14 @@
 import React, { Component } from 'react';
 
 import KDataTools from './utils/KDataTools';
-import KCheckListItem from './KCheckListItem';
+import KRadioListItem from './KRadioListItem';
 
 import './styles/lists.css';
 
 /**
  * 
  */
-class KCheckList extends Component {
+class KRadioList extends Component {
 
   static TINY = 'small';
   static REGULAR = 'regular';
@@ -49,12 +49,9 @@ class KCheckList extends Component {
     let newList=this.dataTools.deepCopy (this.state.list);
 
     for (let i=0;i<newList.length;i++) {
+      newList[i].checked=false;
       if(anIndex==i) {
-        if (newList[i].checked==true){
-          newList[i].checked=false;
-        } else {
-          newList[i].checked=true;          
-        }
+        newList[i].checked=true;
       }
     }
 
@@ -62,8 +59,8 @@ class KCheckList extends Component {
       list: newList
     });
 
-    if (this.props.checklistChecked) {
-      this.props.checklistChecked (newList);
+    if (this.props.radiolistChecked) {
+      this.props.radiolistChecked (newList);
     }
   }
 
@@ -74,7 +71,7 @@ class KCheckList extends Component {
     let items=[];
 
     for (let i=0;i<this.state.list.length;i++) {
-      items.push (<KCheckListItem key={this.dataTools.uuidv4()} id={i} onItemCheck={this.onItemCheck} item={this.state.list [i]}/>);
+      items.push (<KRadioListItem key={this.dataTools.uuidv4()} id={i} onItemCheck={this.onItemCheck} item={this.state.list [i]}/>);
     }
 
     return (items);
@@ -84,25 +81,25 @@ class KCheckList extends Component {
    *
    */
   render () {
-    let classes="kcheck-list klist-regular";
+    let classes="kradio-list klist-regular";
     let style;
     let items;
 
     if (this.props.size) {
       if (this.props.size==KButton.TINY) {
-        classes="kcheck-list klist-tiny";
+        classes="kradio-list klist-tiny";
       }
 
       if (this.props.size==KButton.REGULAR) {
-        classes="kcheck-list klist-regular";
+        classes="kradio-list klist-regular";
       }
 
       if (this.props.size==KButton.MEDIUM) {
-        classes="kcheck-list klist-medium";
+        classes="kradio-list klist-medium";
       }
 
       if (this.props.size==KButton.LARGE) {
-        classes="kcheck-list klist-large";
+        classes="kradio-list klist-large";
       }
     }
 
@@ -124,4 +121,4 @@ class KCheckList extends Component {
   }
 }
 
-export default KCheckList;
+export default KRadioList;

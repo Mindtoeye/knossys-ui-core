@@ -31,7 +31,7 @@ class KWaitSpinner extends Component {
    * 
    */
   renderWait01() {
-    return (<svg className="kwaitsvg">
+    return (<svg className="kwaitsvg" viewBox="0 0 100 100">
           <circle fill="none" stroke="#cdc9c9" strokeWidth="6" strokeMiterlimit="15" strokeDasharray="14.2472,14.2472" cx="50" cy="50" r="47" >
             <animateTransform 
                attributeName="transform" 
@@ -106,7 +106,7 @@ class KWaitSpinner extends Component {
    * 
    */
   renderWait02() {
-    return (<svg className="kwaitsvg">
+    return (<svg className="kwaitsvg" viewBox="0 0 100 100">
       <circle fill="none" stroke="#cdc9c9" strokeWidth="4" strokeMiterlimit="10" cx="50" cy="50" r="48"/>
       <line fill="none" strokeLinecap="round" stroke="#cdc9c9" strokeWidth="4" strokeMiterlimit="10" x1="50" y1="50" x2="85" y2="50.5">
         <animateTransform 
@@ -133,7 +133,7 @@ class KWaitSpinner extends Component {
    * 
    */
   renderWait03() {
-    return (<svg className="kwaitsvg">
+    return (<svg className="kwaitsvg" viewBox="0 0 100 100">
       <circle fill="none" stroke="#cdc9c9" strokeWidth="4" cx="50" cy="50" r="44" style={{opacity: "0.5"}}/>
         <circle fill="#cdc9c9" stroke="#e74c3c" strokeWidth="3" cx="8" cy="54" r="6" >
           <animateTransform
@@ -152,7 +152,7 @@ class KWaitSpinner extends Component {
    * 
    */
   renderWait04() {
-    return (<svg className="kwaitsvg">
+    return (<svg className="kwaitsvg" viewBox="0 0 100 100">
         <circle fill="#cdc9c9" stroke="none" cx="6" cy="50" r="6">
           <animate
             attributeName="opacity"
@@ -184,7 +184,7 @@ class KWaitSpinner extends Component {
    * 
    */
   renderWait05() {
-    return (<svg className="kwaitsvg">
+    return (<svg className="kwaitsvg" viewBox="0 0 100 100">
         <circle fill="#cdc9c9" stroke="none" cx="6" cy="50" r="6">
           <animateTransform 
              attributeName="transform" 
@@ -219,7 +219,7 @@ class KWaitSpinner extends Component {
    * 
    */
   renderWait06() {
-    return (<svg className="kwaitsvg">
+    return (<svg className="kwaitsvg" viewBox="0 0 100 100">
          <rect fill="none" stroke="#cdc9c9" strokeWidth="4" x="25" y="25" width="50" height="50">
         <animateTransform
            attributeName="transform"
@@ -249,7 +249,7 @@ class KWaitSpinner extends Component {
    * 
    */
   renderWait07() {
-    return (<svg className="kwaitsvg">
+    return (<svg className="kwaitsvg" viewBox="0 0 100 100">
        <path fill="#cdc9c9" d="M31.6,3.5C5.9,13.6-6.6,42.7,3.5,68.4c10.1,25.7,39.2,38.3,64.9,28.1l-3.1-7.9c-21.3,8.4-45.4-2-53.8-23.3
         c-8.4-21.3,2-45.4,23.3-53.8L31.6,3.5z">
             <animateTransform 
@@ -290,7 +290,7 @@ class KWaitSpinner extends Component {
    * 
    */
   renderWait08() {
-    return (<svg className="kwaitsvg">
+    return (<svg className="kwaitsvg" viewBox="0 0 100 100">
       <rect fill="#cdc9c9" width="3" height="100" transform="translate(0) rotate(180 3 50)">
         <animate
             attributeName="height"
@@ -342,7 +342,7 @@ class KWaitSpinner extends Component {
    * 
    */
   renderWait09() {
-    return(<svg className="kwaitsvg">
+    return(<svg className="kwaitsvg" viewBox="0 0 100 100">
         <rect x="20" y="50" width="4" height="10" fill="#cdc9c9">
           <animateTransform attributeType="xml"
             attributeName="transform" type="translate"
@@ -368,7 +368,7 @@ class KWaitSpinner extends Component {
    * 
    */
   renderWait10() {
-    return(<svg className="kwaitsvg">
+    return(<svg className="kwaitsvg" viewBox="0 0 100 100">
         <path fill="#cdc9c9" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
           <animateTransform 
              attributeName="transform" 
@@ -394,48 +394,50 @@ class KWaitSpinner extends Component {
   /**
    * 
    */
-  render () {
+  render () {    
+    let classes="kwaitspinner kwaitspinnerdefaults";
+
     if (this.props.type==KWaitSpinner.SPINNER_STYLE_01) {
-      return (<div onClick={(e) => this.onClick(e)} className="kwaitspinner">{this.renderWait01()}</div>);
+      return (<div onClick={(e) => this.onClick(e)} className={classes} style={this.props.style}>{this.renderWait01()}</div>);
     }
 
     if (this.props.type==KWaitSpinner.SPINNER_STYLE_02) {
-      return (<div onClick={(e) => this.onClick(e)} className="kwaitspinner">{this.renderWait02()}</div>);
+      return (<div onClick={(e) => this.onClick(e)} className={classes} style={this.props.style}>{this.renderWait02()}</div>);
     }
 
     if (this.props.type==KWaitSpinner.SPINNER_STYLE_03) {
-      return (<div onClick={(e) => this.onClick(e)} className="kwaitspinner">{this.renderWait03()}</div>);      
+      return (<div onClick={(e) => this.onClick(e)} className={classes} style={this.props.style}>{this.renderWait03()}</div>);      
     }
 
     if (this.props.type==KWaitSpinner.SPINNER_STYLE_04) {
-      return (<div onClick={(e) => this.onClick(e)} className="kwaitspinner">{this.renderWait04()}</div>);      
+      return (<div onClick={(e) => this.onClick(e)} className={classes} style={this.props.style}>{this.renderWait04()}</div>);      
     }
 
     if (this.props.type==KWaitSpinner.SPINNER_STYLE_05) {
-      return (<div onClick={(e) => this.onClick(e)} className="kwaitspinner">{this.renderWait05()}</div>);      
+      return (<div onClick={(e) => this.onClick(e)} className={classes} style={this.props.style}>{this.renderWait05()}</div>);      
     }
 
     if (this.props.type==KWaitSpinner.SPINNER_STYLE_06) {
-      return (<div onClick={(e) => this.onClick(e)} className="kwaitspinner">{this.renderWait06()}</div>);      
+      return (<div onClick={(e) => this.onClick(e)} className={classes} style={this.props.style}>{this.renderWait06()}</div>);      
     }
 
     if (this.props.type==KWaitSpinner.SPINNER_STYLE_07) {
-      return (<div onClick={(e) => this.onClick(e)} className="kwaitspinner">{this.renderWait07()}</div>);      
+      return (<div onClick={(e) => this.onClick(e)} className={classes} style={this.props.style}>{this.renderWait07()}</div>);      
     }
 
     if (this.props.type==KWaitSpinner.SPINNER_STYLE_08) {
-      return (<div onClick={(e) => this.onClick(e)} className="kwaitspinner">{this.renderWait08()}</div>);      
+      return (<div onClick={(e) => this.onClick(e)} className={classes} style={this.props.style}>{this.renderWait08()}</div>);      
     }
 
     if (this.props.type==KWaitSpinner.SPINNER_STYLE_09) {
-      return (<div onClick={(e) => this.onClick(e)} className="kwaitspinner">{this.renderWait09()}</div>);      
+      return (<div onClick={(e) => this.onClick(e)} className={classes} style={this.props.style}>{this.renderWait09()}</div>);      
     }
 
     if (this.props.type==KWaitSpinner.SPINNER_STYLE_10) {
-      return (<div onClick={(e) => this.onClick(e)} className="kwaitspinner">{this.renderWait10()}</div>);      
+      return (<div onClick={(e) => this.onClick(e)} className={classes} style={this.props.style}>{this.renderWait10()}</div>);      
     }        
 
-    return (<div className="kwaitspinner">{this.renderWait01()}</div>);
+    return (<div className={classes} style={this.props.style}>{this.renderWait01()}</div>);
   }
 }
 

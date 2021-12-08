@@ -22,6 +22,7 @@ import KTree from './lib/components/KTree';
 import KToolbar from './lib/components/KToolbar';
 import KToolbarItem from './lib/components/KToolbarItem';
 import KWaitSpinner from './lib/components/KWaitSpinner';
+import KMultiRangeSlider from './lib/components/KMultiRangeSlider';
 
 import './lib/components/styles/misc.css';
 import './lib/components/styles/accordion.css';
@@ -524,6 +525,14 @@ class Drydock extends Component {
         </KToolbar>
          <KTree onSelect={this.onTreeNodeSelect} data={treeData} />
        </KnossysInfoPanel>
+
+       <KnossysInfoPanel label="Sliders" style={{left: "975px", top: "51px", width: "226px", height: '350px'}}>
+          <KMultiRangeSlider
+            min={0}
+            max={1000}
+            onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
+          />
+       </KnossysInfoPanel>       
 
        <KnossysInfoPanel classes="kbottom-right" />
       </KDriver>

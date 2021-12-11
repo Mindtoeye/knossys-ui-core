@@ -18,6 +18,7 @@ import KTreeNode from './components/KTreeNode';
 import KToolbar from './components/KToolbar';
 import KToolbarItem from './components/KToolbarItem';
 import KMultiRangeSlider from './components/KMultiRangeSlider';
+import KWaitSpinner from './components/KWaitSpinner';
 
 export { 
   KnossysInfoPanel, 
@@ -38,5 +39,6 @@ export {
   KTreeNode,
   KToolbar,
   KToolbarItem,
-  KMultiRangeSlider
+  KMultiRangeSlider,
+  KWaitSpinner
 };

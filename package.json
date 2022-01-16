@@ -32,8 +32,8 @@
   "dependencies": {
     "classnames": "^2.3.1",
     "history": "^4.10.1",
-    "immutable": "^4.0.0-rc.12",    
-    "react-icons": "^4.3.1",    
+    "immutable": "^4.0.0-rc.12",
+    "react-icons": "^4.3.1",
     "style-loader": "^1.0.0"
   },
   "devDependencies": {

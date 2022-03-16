@@ -21,6 +21,9 @@
   margin-left: 2px;
   margin-right: 2px;
   padding: 2px;
+  float: top;
+  margin: 0px;
+  max-height: 26px;
 }
 
 .ktoolbaritem:hover {

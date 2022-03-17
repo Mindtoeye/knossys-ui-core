@@ -8,12 +8,12 @@
 }
 
 .knossys-dark .ktoolbar-vertical {
-  display: flex;  
-  flex-direction: column;
+  display: flex;
+  flex-direction: row;
   background: #121212;
   padding: 2px;
   font-size: 12pt;
-  display: inline-block;
+  /* display: inline-block; */
 }
 
 .knossys-dark .ktoolbaritem {
@@ -24,13 +24,47 @@
   float: top;
   margin: 0px;
   max-height: 26px;
+
+  border: 1px solid #121212;
+
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .ktoolbaritem:hover {
   background: #302f2f;
+  border: 1px solid #121212;
   color: white;
 }
 
 .ktoolbaritem:active {
   color: #f5f517;
+}
+
+.ktoolbar-vertical-label {
+  background: black;
+  color: #cdc9c9;
+  flex: 0;
+  writing-mode: vertical-rl;
+  font-family: Arial;
+  font-size: 11pt;
+  text-orientation: mixed;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding: 4px;
+}
+
+.ktoolbar-vertical-ribbon {
+  display: flex;  
+  flex-direction: column;
+  background: #121212;
+  padding: 2px;
+  font-size: 12pt;
+  display: inline-block;
+}
+
+.ktoolbaritem-toggled {
+  border: 1px solid #fbe9b6 !important;
 }

@@ -24,8 +24,11 @@ class KToolbar extends Component {
     }
 
     this.state = {
+      toggled: -1,
       direction: dir
     };
+
+    this.onItemToggle=this.onItemToggle.bind(this);
   }
 
   /**
@@ -43,30 +46,68 @@ class KToolbar extends Component {
   }
 
   /**
+   * 
+   */
+  onItemToggle (e, anIndex)  {
+    console.log ("onItemToggle ("+anIndex+")");
+
+    this.setState ({
+      toggled: anIndex
+    });
+  }
+
+  /**
    *
    */
   render () {
     let button;
     let classes="";
     let style;
+    let label;
+    let children=[];
 
     if (this.props.style) {
       style=this.props.style;
     }
 
-    if (this.state.direction==KToolbar.DIRECTION_HORIZONTAL) {
-      classes="ktoolbar-horizontal";
+    if (this.props.label) {
+      label=<div className="ktoolbar-vertical-label">{this.props.label}</div>
+    }
+
+    if (this.state.direction==KToolbar.DIRECTION_VERTICAL) {
+      classes="ktoolbar-vertical";      
     } else {
-      classes="ktoolbar-vertical";
+      classes="ktoolbar-horizontal";
     }
 
     if (this.props.classes) {
       classes=classes + " " + this.props.classes;
     }
 
+    for (let i=0;i<this.props.children.length;i++) {
+      if (this.state.toggled==i) {
+        let refactoredChild=React.cloneElement(this.props.children [i], { key: ("refactored-"+i), onItemToggle: this.onItemToggle, itemIndex: i, toggled: true });
+        children.push(refactoredChild);
+      } else {
+        let refactoredChild=React.cloneElement(this.props.children [i], { key: ("refactored-"+i), onItemToggle: this.onItemToggle, itemIndex: i });
+        children.push(refactoredChild);
+      }
+    }
+
+    if (this.state.direction==KToolbar.DIRECTION_VERTICAL) {
+      return (
+        <div className={classes} style={style}>
+          {label}
+          <div className="ktoolbar-vertical-ribbon">
+            {children}
+          </div>
+        </div>
+      );      
+    }
+
     return (
       <div className={classes} style={style}>
-        {this.props.children}
+        {children}
       </div>
     );
   }

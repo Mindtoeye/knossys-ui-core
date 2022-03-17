@@ -13,7 +13,8 @@ class KToolbarItem extends Component {
   constructor (props) {
     super (props);
 
-    this.state = {      
+    this.state = {
+
     };
 
     this.onClick=this.onClick.bind(this);
@@ -37,9 +38,18 @@ class KToolbarItem extends Component {
    * 
    */
   onClick (e) {
+    if (this.props.toggle) {
+      if (this.props.toggle==true) {
+        if (this.props.onItemToggle) {
+          this.props.onItemToggle (e, this.props.itemIndex);
+        }
+        return;
+      }
+    }
+
     if (this.props.onClick) {
       this.props.onClick(e);
-    }
+    }    
   }
 
   /**
@@ -58,8 +68,14 @@ class KToolbarItem extends Component {
       classes=classes + " " + this.props.classes;
     }
 
+    if (this.props.toggled) {
+      if (this.props.toggled==true) {
+        classes=classes + " ktoolbaritem-toggled";
+      }
+    }
+
     return (
-      <div className={classes} style={style} onClick={(e) => this.onClick(e)}>
+      <div className={classes} style={style} onClick={(e) => this.onClick(e)} title={this.props.tooltip}>
         {this.props.children}
       </div>
     );

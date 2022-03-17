@@ -80,6 +80,16 @@ var KToolbarItem = /*#__PURE__*/function (_Component) {
   }, {
     key: "onClick",
     value: function onClick(e) {
+      if (this.props.toggle) {
+        if (this.props.toggle == true) {
+          if (this.props.onItemToggle) {
+            this.props.onItemToggle(e, this.props.itemIndex);
+          }
+
+          return;
+        }
+      }
+
       if (this.props.onClick) {
         this.props.onClick(e);
       }
@@ -105,12 +115,19 @@ var KToolbarItem = /*#__PURE__*/function (_Component) {
         classes = classes + " " + this.props.classes;
       }
 
+      if (this.props.toggled) {
+        if (this.props.toggled == true) {
+          classes = classes + " ktoolbaritem-toggled";
+        }
+      }
+
       return /*#__PURE__*/_react.default.createElement("div", {
         className: classes,
         style: style,
         onClick: function onClick(e) {
           return _this2.onClick(e);
-        }
+        },
+        title: this.props.tooltip
       }, this.props.children);
     }
   }]);

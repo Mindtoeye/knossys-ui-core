@@ -51,6 +51,13 @@ class KToolbar extends Component {
   onItemToggle (e, anIndex)  {
     console.log ("onItemToggle ("+anIndex+")");
 
+    if (this.state.toggled==anIndex) {
+      this.setState ({
+        toggled: -1
+      });      
+      return;
+    }
+
     this.setState ({
       toggled: anIndex
     });

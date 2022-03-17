@@ -63,8 +63,10 @@ var KToolbar = /*#__PURE__*/function (_Component) {
     }
 
     _this.state = {
+      toggled: -1,
       direction: dir
     };
+    _this.onItemToggle = _this.onItemToggle.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
@@ -85,6 +87,26 @@ var KToolbar = /*#__PURE__*/function (_Component) {
     value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");
     }
     /**
+     * 
+     */
+
+  }, {
+    key: "onItemToggle",
+    value: function onItemToggle(e, anIndex) {
+      console.log("onItemToggle (" + anIndex + ")");
+
+      if (this.state.toggled == anIndex) {
+        this.setState({
+          toggled: -1
+        });
+        return;
+      }
+
+      this.setState({
+        toggled: anIndex
+      });
+    }
+    /**
      *
      */
 
@@ -94,25 +116,63 @@ var KToolbar = /*#__PURE__*/function (_Component) {
       var button;
       var classes = "";
       var style;
+      var label;
+      var children = [];
 
       if (this.props.style) {
         style = this.props.style;
       }
 
-      if (this.state.direction == KToolbar.DIRECTION_HORIZONTAL) {
-        classes = "ktoolbar-horizontal";
-      } else {
+      if (this.props.label) {
+        label = /*#__PURE__*/_react.default.createElement("div", {
+          className: "ktoolbar-vertical-label"
+        }, this.props.label);
+      }
+
+      if (this.state.direction == KToolbar.DIRECTION_VERTICAL) {
         classes = "ktoolbar-vertical";
+      } else {
+        classes = "ktoolbar-horizontal";
       }
 
       if (this.props.classes) {
         classes = classes + " " + this.props.classes;
       }
 
+      for (var i = 0; i < this.props.children.length; i++) {
+        if (this.state.toggled == i) {
+          var refactoredChild = /*#__PURE__*/_react.default.cloneElement(this.props.children[i], {
+            key: "refactored-" + i,
+            onItemToggle: this.onItemToggle,
+            itemIndex: i,
+            toggled: true
+          });
+
+          children.push(refactoredChild);
+        } else {
+          var _refactoredChild = /*#__PURE__*/_react.default.cloneElement(this.props.children[i], {
+            key: "refactored-" + i,
+            onItemToggle: this.onItemToggle,
+            itemIndex: i
+          });
+
+          children.push(_refactoredChild);
+        }
+      }
+
+      if (this.state.direction == KToolbar.DIRECTION_VERTICAL) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          className: classes,
+          style: style
+        }, label, /*#__PURE__*/_react.default.createElement("div", {
+          className: "ktoolbar-vertical-ribbon"
+        }, children));
+      }
+
       return /*#__PURE__*/_react.default.createElement("div", {
         className: classes,
         style: style
-      }, this.props.children);
+      }, children);
     }
   }]);
 

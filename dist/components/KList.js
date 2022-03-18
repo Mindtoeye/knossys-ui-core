@@ -9,7 +9,11 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _KDataTools = _interopRequireDefault(require("./utils/KDataTools"));
+
 require("./styles/lists.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -54,26 +58,26 @@ var KList = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, KList);
 
     _this = _super.call(this, props);
-    _this.state = {};
+    _this.dataTools = new _KDataTools.default();
+    _this.state = {
+      list: props.list
+    };
     _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
-   * 
+   *
    */
 
 
   _createClass(KList, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
-    }
-    /**
-     * 
-     */
-
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");    
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.list !== prevProps.list) {
+        this.setState({
+          list: this.props.list
+        });
+      }
     }
     /**
      * 
@@ -91,10 +95,30 @@ var KList = /*#__PURE__*/function (_Component) {
      */
 
   }, {
+    key: "renderItems",
+    value: function renderItems() {
+      var items = [];
+
+      for (var i = 0; i < this.state.list.length; i++) {
+        items.push( /*#__PURE__*/_react.default.createElement("li", {
+          key: this.dataTools.uuidv4(),
+          id: i,
+          className: this.props.itemclass
+        }, this.state.list[i]));
+      }
+
+      return items;
+    }
+    /**
+     *
+     */
+
+  }, {
     key: "render",
     value: function render() {
       var classes = "klist klist-regular";
       var style;
+      var items;
 
       if (this.props.size) {
         if (this.props.size == KButton.TINY) {
@@ -122,10 +146,11 @@ var KList = /*#__PURE__*/function (_Component) {
         classes = classes + " " + this.props.classes;
       }
 
+      items = this.renderItems();
       return /*#__PURE__*/_react.default.createElement("ul", {
         className: classes,
         style: style
-      }, /*#__PURE__*/_react.default.createElement("li", null, "Head"), /*#__PURE__*/_react.default.createElement("li", null, "Shoulders"), /*#__PURE__*/_react.default.createElement("li", null, "Knees"), /*#__PURE__*/_react.default.createElement("li", null, "Toes"));
+      }, items);
     }
   }]);
 

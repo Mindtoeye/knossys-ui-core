@@ -1,5 +1,6 @@
-
 import React, { Component } from 'react';
+
+import KDataTools from './utils/KDataTools';
 
 import './styles/lists.css';
 
@@ -19,25 +20,25 @@ class KList extends Component {
   constructor (props) {
     super (props);
 
-    this.state = {      
+    this.dataTools=new KDataTools ();
+
+    this.state = {
+      list: props.list
     };
 
     this.onClick=this.onClick.bind(this);
   }
 
   /**
-   * 
+   *
    */
-  componentDidMount () {
-    //console.log ("componentDidMount ()");
-  }
-
-  /**
-   * 
-   */
-  componentWillUnmount() {
-    //console.log ("componentWillUnmount ()");    
-  }
+  componentDidUpdate(prevProps) {   
+    if (this.props.list !== prevProps.list) {
+      this.setState ({
+        list: this.props.list
+      });
+    }
+  }  
 
   /**
    * 
@@ -51,9 +52,23 @@ class KList extends Component {
   /**
    *
    */
+  renderItems () {
+    let items=[];
+
+    for (let i=0;i<this.state.list.length;i++) {
+      items.push (<li key={this.dataTools.uuidv4()} id={i} className={this.props.itemclass}>{this.state.list [i]}</li>);
+    }
+
+    return (items);
+  }
+
+  /**
+   *
+   */
   render () {
     let classes="klist klist-regular";
     let style;
+    let items;
 
     if (this.props.size) {
       if (this.props.size==KButton.TINY) {
@@ -81,12 +96,11 @@ class KList extends Component {
       classes=classes + " " + this.props.classes;
     }
 
+    items=this.renderItems ();
+
     return (
       <ul className={classes} style={style}>
-        <li>Head</li>
-        <li>Shoulders</li>
-        <li>Knees</li>
-        <li>Toes</li>
+      {items}
       </ul>
     );
   }

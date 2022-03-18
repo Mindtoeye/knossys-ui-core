@@ -438,7 +438,7 @@ class Drydock extends Component {
 
        <KnossysInfoPanel label="Lists" style={{left: "50px", top: "243px", height: "268px"}}>
 
-        <KList />
+        <KList list={["Banana","Apple","Orange","Tomato"]} />
         
         <KHorizontalSeparator />
         

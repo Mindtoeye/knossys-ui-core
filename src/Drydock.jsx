@@ -450,7 +450,7 @@ class Drydock extends Component {
 
        </KnossysInfoPanel>
 
-       <KnossysInfoPanel label="Toolbars" style={{left: "50px", top: "534px", height: "234px"}}>
+       <KnossysInfoPanel label="Toolbars" style={{left: "50px", top: "534px", height: "260px"}}>
         <KToolbar>
           <KToolbarItem onClick={this.onToolbarItemClick}><FaFile /></KToolbarItem>
           <KToolbarItem onClick={this.onToolbarItemClick}><FaFolder /></KToolbarItem>
@@ -460,12 +460,37 @@ class Drydock extends Component {
 
         <br/>
 
-        <KToolbar direction={KToolbar.DIRECTION_VERTICAL}>
-          <KToolbarItem onClick={this.onToolbarItemClick}><RiStackshareLine /></KToolbarItem>
-          <KToolbarItem onClick={this.onToolbarItemClick}><GrUndo /></KToolbarItem>
-          <KToolbarItem onClick={this.onToolbarItemClick}><GrRedo /></KToolbarItem>
-          <KToolbarItem onClick={this.onToolbarItemClick}><MdAddLocation /></KToolbarItem>
-        </KToolbar>        
+        <div style={{display: "flex", flexDirection: "row"}}>
+          <KToolbar direction={KToolbar.DIRECTION_VERTICAL} label="Regular Vertical" style={{margin: "4px", padding: "0px"}}>
+            <KToolbarItem onClick={this.onToolbarItemClick}><RiStackshareLine /></KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick}><GrUndo /></KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick}><GrRedo /></KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick}><MdAddLocation /></KToolbarItem>
+          </KToolbar>
+
+          <KToolbar direction={KToolbar.DIRECTION_VERTICAL} label="Toggles Vertical" style={{margin: "4px", padding: "0px"}}>
+            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>A</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>B</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>C</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>D</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>E</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>F</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>G</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>H</KToolbarItem>            
+          </KToolbar>
+
+          <KToolbar direction={KToolbar.DIRECTION_VERTICAL} style={{margin: "4px", padding: "0px"}}>
+            <KToolbarItem onClick={this.onToolbarItemClick}>1</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick}>2</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick}>3</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick}>4</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick}>5</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick}>6</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick}>7</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick}>8</KToolbarItem>            
+          </KToolbar>          
+        </div>
+
        </KnossysInfoPanel>       
 
        <KnossysInfoPanel label="Dropdowns" style={{left: "250px", top: "422px", width: "200px", height: "181px"}}>

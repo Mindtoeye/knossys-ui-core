@@ -18,39 +18,66 @@ class KToolbarItem extends Component {
     };
 
     this.onClick=this.onClick.bind(this);
+    this.toggle=this.toggle.bind(this);
+    this.select=this.select.bind(this);
   }
 
   /**
    * 
    */
   componentDidMount () {
-    //console.log ("componentDidMount ()");
-  }
-
-  /**
-   * 
-   */
-  componentWillUnmount() {      
-    //console.log ("componentWillUnmount ()");
+    console.log ("componentDidMount ()");
+    this.select ();
   }
 
   /**
    * 
    */
   onClick (e) {
-    if (this.props.toggle) {
-      if (this.props.toggle==true) {
-        if (this.props.onItemToggle) {
-          this.props.onItemToggle (e, this.props.itemIndex);
-        }
-        return;
-      }
+    if (this.toggle ()==true) {
+      return;
     }
 
     if (this.props.onClick) {
       this.props.onClick(e);
     }    
   }
+
+  /**
+   *
+   */
+  toggle (e) {
+    console.log ("toggle ()");
+
+    if (this.props.toggle) {
+      if (this.props.toggle==true) {
+        if (this.props.onItemToggle) {
+          this.props.onItemToggle (e, this.props.itemIndex);
+        }
+        return (true);
+      }
+    }
+
+    return (false);
+  }
+
+  /**
+   *
+   */
+  select () {
+    console.log ("select ()");
+
+    if (this.props.selected) {
+      if (this.props.selected==true) {
+        if (this.props.onItemToggle) {
+          this.props.onItemToggle ({}, this.props.itemIndex);
+        }
+        return (true);
+      }
+    }
+
+    return (false);
+  }  
 
   /**
    *

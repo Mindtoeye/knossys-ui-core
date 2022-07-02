@@ -469,7 +469,7 @@ class Drydock extends Component {
           </KToolbar>
 
           <KToolbar direction={KToolbar.DIRECTION_VERTICAL} label="Toggles Vertical" style={{margin: "4px", padding: "0px"}}>
-            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>A</KToolbarItem>
+            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true} selected={true}>A</KToolbarItem>
             <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>B</KToolbarItem>
             <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>C</KToolbarItem>
             <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>D</KToolbarItem>

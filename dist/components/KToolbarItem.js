@@ -54,6 +54,8 @@ var KToolbarItem = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {};
     _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
+    _this.toggle = _this.toggle.bind(_assertThisInitialized(_this));
+    _this.select = _this.select.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
@@ -63,15 +65,9 @@ var KToolbarItem = /*#__PURE__*/function (_Component) {
 
   _createClass(KToolbarItem, [{
     key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
-    }
-    /**
-     * 
-     */
-
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");
+    value: function componentDidMount() {
+      console.log("componentDidMount ()");
+      this.select();
     }
     /**
      * 
@@ -80,19 +76,55 @@ var KToolbarItem = /*#__PURE__*/function (_Component) {
   }, {
     key: "onClick",
     value: function onClick(e) {
+      if (this.toggle() == true) {
+        return;
+      }
+
+      if (this.props.onClick) {
+        this.props.onClick(e);
+      }
+    }
+    /**
+     *
+     */
+
+  }, {
+    key: "toggle",
+    value: function toggle(e) {
+      console.log("toggle ()");
+
       if (this.props.toggle) {
         if (this.props.toggle == true) {
           if (this.props.onItemToggle) {
             this.props.onItemToggle(e, this.props.itemIndex);
           }
 
-          return;
+          return true;
         }
       }
 
-      if (this.props.onClick) {
-        this.props.onClick(e);
+      return false;
+    }
+    /**
+     *
+     */
+
+  }, {
+    key: "select",
+    value: function select() {
+      console.log("select ()");
+
+      if (this.props.selected) {
+        if (this.props.selected == true) {
+          if (this.props.onItemToggle) {
+            this.props.onItemToggle({}, this.props.itemIndex);
+          }
+
+          return true;
+        }
       }
+
+      return false;
     }
     /**
      *

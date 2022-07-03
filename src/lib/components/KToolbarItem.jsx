@@ -26,7 +26,7 @@ class KToolbarItem extends Component {
    * 
    */
   componentDidMount () {
-    console.log ("componentDidMount ()");
+    //console.log ("componentDidMount ()");
     this.select ();
   }
 
@@ -34,12 +34,14 @@ class KToolbarItem extends Component {
    * 
    */
   onClick (e) {
+    console.log ("toggle ()");
+    
     if (this.toggle ()==true) {
       return;
     }
 
-    if (this.props.onClick) {
-      this.props.onClick(e);
+    if (this.props.onItemToggle) {
+      this.props.onItemToggle(e);
     }    
   }
 

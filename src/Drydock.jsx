@@ -23,6 +23,7 @@ import KToolbar from './lib/components/KToolbar';
 import KToolbarItem from './lib/components/KToolbarItem';
 import KWaitSpinner from './lib/components/KWaitSpinner';
 import KMultiRangeSlider from './lib/components/KMultiRangeSlider';
+import KBasicEditor from './lib/components/KBasicEditor';
 
 import './lib/components/styles/misc.css';
 import './lib/components/styles/accordion.css';
@@ -188,6 +189,8 @@ class Drydock extends Component {
     this.handleChangeInteger=this.handleChangeInteger.bind(this);
     this.handleChangeFloat=this.handleChangeFloat.bind(this);
     this.handleChangeBinary=this.handleChangeBinary.bind(this);
+
+    this.onEditChange=this.onEditChange.bind(this);
   }
 
   /**
@@ -370,6 +373,14 @@ class Drydock extends Component {
   /**
    *
    */
+  onEditChange (aTextValue) {
+    console.log ("onEditChange ()");
+    console.log (aTextValue);
+  }
+
+  /**
+   *
+   */
   render () {
     return (
       <KDriver>
@@ -452,42 +463,42 @@ class Drydock extends Component {
 
        <KnossysInfoPanel label="Toolbars" style={{left: "50px", top: "534px", height: "260px"}}>
         <KToolbar>
-          <KToolbarItem onClick={this.onToolbarItemClick}><FaFile /></KToolbarItem>
-          <KToolbarItem onClick={this.onToolbarItemClick}><FaFolder /></KToolbarItem>
-          <KToolbarItem onClick={this.onToolbarItemClick}><FaFolderOpen /></KToolbarItem>
-          <KToolbarItem onClick={this.onToolbarItemClick}><MdAddLocation /></KToolbarItem>
+          <KToolbarItem onClick={this.onItemToggle}><FaFile /></KToolbarItem>
+          <KToolbarItem onClick={this.onItemToggle}><FaFolder /></KToolbarItem>
+          <KToolbarItem onClick={this.onItemToggle}><FaFolderOpen /></KToolbarItem>
+          <KToolbarItem onClick={this.onItemToggle}><MdAddLocation /></KToolbarItem>
         </KToolbar>
 
         <br/>
 
         <div style={{display: "flex", flexDirection: "row"}}>
           <KToolbar direction={KToolbar.DIRECTION_VERTICAL} label="Regular Vertical" style={{margin: "4px", padding: "0px"}}>
-            <KToolbarItem onClick={this.onToolbarItemClick}><RiStackshareLine /></KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick}><GrUndo /></KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick}><GrRedo /></KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick}><MdAddLocation /></KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}><RiStackshareLine /></KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}><GrUndo /></KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}><GrRedo /></KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}><MdAddLocation /></KToolbarItem>
           </KToolbar>
 
           <KToolbar direction={KToolbar.DIRECTION_VERTICAL} label="Toggles Vertical" style={{margin: "4px", padding: "0px"}}>
-            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true} selected={true}>A</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>B</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>C</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>D</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>E</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>F</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>G</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick} toggle={true}>H</KToolbarItem>            
+            <KToolbarItem onClick={this.onItemToggle} toggle={true} selected={true}>A</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle} toggle={true}>B</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle} toggle={true}>C</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle} toggle={true}>D</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle} toggle={true}>E</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle} toggle={true}>F</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle} toggle={true}>G</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle} toggle={true}>H</KToolbarItem>            
           </KToolbar>
 
           <KToolbar direction={KToolbar.DIRECTION_VERTICAL} style={{margin: "4px", padding: "0px"}}>
-            <KToolbarItem onClick={this.onToolbarItemClick}>1</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick}>2</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick}>3</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick}>4</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick}>5</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick}>6</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick}>7</KToolbarItem>
-            <KToolbarItem onClick={this.onToolbarItemClick}>8</KToolbarItem>            
+            <KToolbarItem onClick={this.onItemToggle}>1</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}>2</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}>3</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}>4</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}>5</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}>6</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}>7</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle}>8</KToolbarItem>            
           </KToolbar>          
         </div>
 
@@ -557,7 +568,11 @@ class Drydock extends Component {
             max={1000}
             onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
           />
-       </KnossysInfoPanel>       
+       </KnossysInfoPanel>
+
+       <KnossysInfoPanel label="Mini Text Editor" style={{left: "975px", top: "423px", width: "226px", height: '350px', display: 'flex', flexDirection: 'column'}}>
+         <KBasicEditor onEditChange={this.onEditChange}/> 
+       </KnossysInfoPanel>
 
        <KnossysInfoPanel classes="kbottom-right" />
       </KDriver>

@@ -115,6 +115,7 @@ class KToolbar extends Component {
     return (
       <div className={classes} style={style}>
         {children}
+        <div className="ktoolbar-padding">&nbsp;</div>
       </div>
     );
   }

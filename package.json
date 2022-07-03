@@ -7,7 +7,7 @@
     "components",
     "ui"
   ],
-  "version": "0.2.55",
+  "version": "0.2.56",
   "private": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -30,11 +30,13 @@
     "start": "webpack-dev-server --mode development --progress --config webpack.config.js --host 0.0.0.0 --port 8070"
   },
   "dependencies": {
+    "@knossys/knossys-js-algorithm": "^0.1.20",
     "classnames": "^2.3.1",
     "history": "^4.10.1",
     "immutable": "^4.0.0-rc.12",
-    "@knossys/knossys-js-algorithm": "^0.1.20",     
+    "react-contenteditable": "^3.3.6",
     "react-icons": "^4.3.1",
+    "sanitize-html": "^2.7.0",
     "style-loader": "^1.0.0"
   },
   "devDependencies": {

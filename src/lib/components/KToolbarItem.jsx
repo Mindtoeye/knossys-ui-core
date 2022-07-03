@@ -35,13 +35,16 @@ class KToolbarItem extends Component {
    */
   onClick (e) {
     console.log ("toggle ()");
-    
+
     if (this.toggle ()==true) {
+      if (this.props.onItemToggle) {
+        this.props.onItemToggle(e);
+      }          
       return;
     }
 
-    if (this.props.onItemToggle) {
-      this.props.onItemToggle(e);
+    if (this.props.onClick) {
+      this.props.onClick(e);
     }    
   }
 

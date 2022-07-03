@@ -374,8 +374,8 @@ class Drydock extends Component {
    *
    */
   onEditChange (aTextValue) {
-    console.log ("onEditChange ()");
-    console.log (aTextValue);
+    //console.log ("onEditChange ()");
+    //console.log (aTextValue);
   }
 
   /**

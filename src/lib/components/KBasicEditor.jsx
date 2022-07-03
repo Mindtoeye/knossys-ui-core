@@ -9,6 +9,8 @@ import KToolbarItem from './KToolbarItem';
 
 import { GrUndo, GrRedo } from 'react-icons/gr';
 import { CgFormatItalic, CgFormatBold, CgFormatHeading, CgLink } from 'react-icons/cg';
+import { BiBold } from 'react-icons/bi';
+import { BsCursorText } from 'react-icons/bs';
 
 
 import './styles/editable.css';
@@ -33,6 +35,12 @@ class KBasicEditor extends React.Component {
       html: `<p>Hello <b>World</b> !</p><p>Paragraph 2</p>`,
       editable: true
     };
+
+    this.onEditBold=this.onEditBold.bind(this);
+    this.onEditItalic=this.onEditItalic.bind(this);
+    this.onEditHeading=this.onEditHeading.bind(this);
+    this.onEditLink=this.onEditLink.bind(this);
+    this.onEditToggle=this.onEditToggle.bind(this);
   }
 
   /**
@@ -58,9 +66,47 @@ class KBasicEditor extends React.Component {
   /**
    * 
    */
-  toggleEditable = () => {
+  onEditBold (e) {
+    console.log ("onEditBold ()");
+
+    document.execCommand("bold", false, null); // Send the command to the browser
+  }
+
+  /**
+   * 
+   */
+  onEditItalic (e) {
+    console.log ("onEditItalic ()");
+
+    document.execCommand("italic", false, null); // Send the command to the browser
+  }
+
+  /**
+   * 
+   */
+  onEditHeading (e) {
+    console.log ("onEditHeading ()");
+
+    document.execCommand("formatBlock", false, "h1"); // Send the command to the browser
+  }
+
+  /**
+   * 
+   */
+  onEditLink (e) {
+    console.log ("onEditLink ()");
+
+    document.execCommand("createLink", false, "https://www.knossys.com"); // Send the command to the browser
+  }
+   
+  /**
+   * 
+   */   
+  onEditToggle (e) {
+    console.log ("onEditToggle ()");
+
     this.setState({ editable: !this.state.editable });
-  };
+  }
 
   /**
    * 
@@ -69,11 +115,11 @@ class KBasicEditor extends React.Component {
     return (
       <div className="keditor">
         <KToolbar>        
+          <KToolbarItem onClick={(e) => this.onEditBold (e)}><BiBold /></KToolbarItem>        
           <KToolbarItem onClick={(e) => this.onEditItalic (e)}><CgFormatItalic /></KToolbarItem>
-          <KToolbarItem onClick={(e) => this.onEditBold (e)}><CgFormatBold /></KToolbarItem>
           <KToolbarItem onClick={(e) => this.onEditHeading (e)}><CgFormatHeading /></KToolbarItem>
           <KToolbarItem onClick={(e) => this.onEditLink (e)}><CgLink /></KToolbarItem>                    
-          <KToolbarItem onClick={(e) => this.onEditToggle (e)} toggle={true}>Edit</KToolbarItem> 
+          <KToolbarItem onClick={(e) => this.onEditToggle (e)} toggle={true} selected={true}><BsCursorText /></KToolbarItem> 
         </KToolbar>      
         <div className="keditcontainer">
           <ContentEditable

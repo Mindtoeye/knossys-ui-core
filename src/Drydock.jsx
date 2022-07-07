@@ -24,11 +24,16 @@ import KToolbarItem from './lib/components/KToolbarItem';
 import KWaitSpinner from './lib/components/KWaitSpinner';
 import KMultiRangeSlider from './lib/components/KMultiRangeSlider';
 import KBasicEditor from './lib/components/KBasicEditor';
+import KSessionStorage from './lib/components/KSessionStorage';
 
 import './lib/components/styles/misc.css';
 import './lib/components/styles/accordion.css';
 import './lib/components/styles/driver.css';
 import './Drydock.css';
+
+const lorem1="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pharetra et ultrices neque ornare aenean euismod elementum. Nullam non nisi est sit amet. Habitasse platea dictumst vestibulum rhoncus est pellentesque. Vitae semper quis lectus nulla at volutpat diam ut. Nunc vel risus commodo viverra maecenas accumsan lacus vel facilisis. Facilisis magna etiam tempor orci eu lobortis. Est pellentesque elit ullamcorper dignissim cras. Morbi tincidunt augue interdum velit euismod. Egestas congue quisque egestas diam. Justo laoreet sit amet cursus sit amet dictum. A arcu cursus vitae congue mauris rhoncus. Morbi tincidunt ornare massa eget egestas. Vestibulum morbi blandit cursus risus at ultrices mi tempus. Consequat id porta nibh venenatis cras. Mi eget mauris pharetra et ultrices. Egestas sed tempus urna et pharetra pharetra massa massa ultricies. Sed felis eget velit aliquet sagittis. In fermentum et sollicitudin ac orci phasellus. Est ultricies integer quis auctor elit sed vulputate mi sit.";
+const lorem2="Nec feugiat in fermentum posuere urna nec tincidunt praesent semper. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Orci ac auctor augue mauris augue neque gravida in fermentum. Ut consequat semper viverra nam libero. Est pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat. Elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Ac felis donec et odio pellentesque. In tellus integer feugiat scelerisque varius morbi. Pellentesque sit amet porttitor eget dolor. Cursus sit amet dictum sit amet justo. Et malesuada fames ac turpis egestas sed tempus. Nunc aliquet bibendum enim facilisis gravida neque. Dictum fusce ut placerat orci nulla pellentesque dignissim. Tortor condimentum lacinia quis vel eros donec.";
+const lorem3="Tortor at auctor urna nunc id cursus. Placerat duis ultricies lacus sed turpis. Posuere lorem ipsum dolor sit. Porta lorem mollis aliquam ut porttitor leo a diam sollicitudin. Sem fringilla ut morbi tincidunt augue. Sit amet nisl purus in mollis. Libero justo laoreet sit amet cursus sit. Ac orci phasellus egestas tellus rutrum. Eu nisl nunc mi ipsum faucibus vitae. Enim tortor at auctor urna. Sollicitudin tempor id eu nisl nunc mi. Id aliquet risus feugiat in ante. Malesuada nunc vel risus commodo. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Eu augue ut lectus arcu bibendum. Condimentum id venenatis a condimentum vitae. Id neque aliquam vestibulum morbi blandit. Tristique risus nec feugiat in fermentum posuere urna.";
 
 const listRegular = [
   {
@@ -156,6 +161,14 @@ class Drydock extends Component {
   constructor (props) {
     super (props);
 
+    this.sessionStorage=new KSessionStorage ("kuicore");
+    this.sessionStorage.setValue ("A",lorem1);
+    this.sessionStorage.setValue ("B",lorem2);
+    this.sessionStorage.setValue ("C",lorem3);
+
+    //this.sessionStorage.setJSONObject ("test",accordionData);
+    //this.sessionStorage.getJSONObject ("test");
+
     this.state = {
       toggled: false,
       spinnerType: KWaitSpinner.SPINNER_STYLE_01,
@@ -166,7 +179,10 @@ class Drydock extends Component {
       hexvalue: "0x04",
       floatvalue: "0.1",
       intvalue: "0",
-      binaryvalue: "0"
+      binaryvalue: "0",
+      storageA: this.sessionStorage.getValue ("A","Unable to retrieve storage with key A"),
+      storageB: this.sessionStorage.getValue ("B","Unable to retrieve storage with key A"),
+      storageC: this.sessionStorage.getValue ("C","Unable to retrieve storage with key A")
     };
 
     this.handleChangeTiny=this.handleChangeTiny.bind(this);
@@ -480,10 +496,10 @@ class Drydock extends Component {
           </KToolbar>
 
           <KToolbar direction={KToolbar.DIRECTION_VERTICAL} label="Toggles Vertical" style={{margin: "4px", padding: "0px"}}>
-            <KToolbarItem onClick={this.onItemToggle} toggle={true} selected={true}>A</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle} toggle={true}>A</KToolbarItem>
             <KToolbarItem onClick={this.onItemToggle} toggle={true}>B</KToolbarItem>
             <KToolbarItem onClick={this.onItemToggle} toggle={true}>C</KToolbarItem>
-            <KToolbarItem onClick={this.onItemToggle} toggle={true}>D</KToolbarItem>
+            <KToolbarItem onClick={this.onItemToggle} toggle={true} selected={true}>D</KToolbarItem>
             <KToolbarItem onClick={this.onItemToggle} toggle={true}>E</KToolbarItem>
             <KToolbarItem onClick={this.onItemToggle} toggle={true}>F</KToolbarItem>
             <KToolbarItem onClick={this.onItemToggle} toggle={true}>G</KToolbarItem>
@@ -540,16 +556,16 @@ class Drydock extends Component {
         <KAccordion data={accordionData} />
        </KnossysInfoPanel>          
 
-       <KnossysInfoPanel label="Tabs" style={{left: "725px", top: "51px", width: "226px", height: '350px'}}>
+       <KnossysInfoPanel label="Tabs" style={{left: "725px", top: "51px", width: "226px", height: '350px', display: 'flex', flexDirection: 'column'}}>
         <KTabs>
-          <div label="Gator">
-            See ya later, <em>Alligator</em>!
+          <div label="Key: A">
+            {this.state.storageA}
           </div>
-          <div label="Croc">
-            After 'while, <em>Crocodile</em>!
+          <div label="Key: B">
+            {this.state.storageB}
           </div>
-          <div label="Sarcosuchus">
-            Nothing to see here, this tab is <em>extinct</em>!
+          <div label="Key: C">
+            {this.state.storageC}
           </div>
         </KTabs>        
        </KnossysInfoPanel>

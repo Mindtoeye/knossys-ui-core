@@ -55,7 +55,6 @@ var KToolbarItem = /*#__PURE__*/function (_Component) {
     _this.state = {};
     _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
     _this.toggle = _this.toggle.bind(_assertThisInitialized(_this));
-    _this.select = _this.select.bind(_assertThisInitialized(_this));
     return _this;
   }
   /**
@@ -64,20 +63,14 @@ var KToolbarItem = /*#__PURE__*/function (_Component) {
 
 
   _createClass(KToolbarItem, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      console.log("componentDidMount ()");
-      this.select();
-    }
-    /**
-     * 
-     */
-
-  }, {
     key: "onClick",
     value: function onClick(e) {
+      console.log("onClick ()");
+
       if (this.toggle() == true) {
-        return;
+        if (this.props.onItemToggleInternal) {
+          this.props.onItemToggleInternal(e, this.props.itemIndex);
+        }
       }
 
       if (this.props.onClick) {
@@ -95,31 +88,6 @@ var KToolbarItem = /*#__PURE__*/function (_Component) {
 
       if (this.props.toggle) {
         if (this.props.toggle == true) {
-          if (this.props.onItemToggle) {
-            this.props.onItemToggle(e, this.props.itemIndex);
-          }
-
-          return true;
-        }
-      }
-
-      return false;
-    }
-    /**
-     *
-     */
-
-  }, {
-    key: "select",
-    value: function select() {
-      console.log("select ()");
-
-      if (this.props.selected) {
-        if (this.props.selected == true) {
-          if (this.props.onItemToggle) {
-            this.props.onItemToggle({}, this.props.itemIndex);
-          }
-
           return true;
         }
       }
@@ -148,7 +116,7 @@ var KToolbarItem = /*#__PURE__*/function (_Component) {
       }
 
       if (this.props.toggled) {
-        if (this.props.toggled == true) {
+        if (this.props.toggled == "true") {
           classes = classes + " ktoolbaritem-toggled";
         }
       }
@@ -159,6 +127,7 @@ var KToolbarItem = /*#__PURE__*/function (_Component) {
         onClick: function onClick(e) {
           return _this2.onClick(e);
         },
+        alt: this.props.tooltip,
         title: this.props.tooltip
       }, this.props.children);
     }

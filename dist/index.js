@@ -63,6 +63,12 @@ Object.defineProperty(exports, "KSelect", {
     return _KSelect.default;
   }
 });
+Object.defineProperty(exports, "KSessionStorage", {
+  enumerable: true,
+  get: function get() {
+    return _KSessionStorage.default;
+  }
+});
 Object.defineProperty(exports, "KTab", {
   enumerable: true,
   get: function get() {
@@ -165,5 +171,7 @@ var _KToolbarItem = _interopRequireDefault(require("./components/KToolbarItem"))
 var _KMultiRangeSlider = _interopRequireDefault(require("./components/KMultiRangeSlider"));
 
 var _KWaitSpinner = _interopRequireDefault(require("./components/KWaitSpinner"));
+
+var _KSessionStorage = _interopRequireDefault(require("./components/KSessionStorage"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

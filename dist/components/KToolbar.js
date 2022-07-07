@@ -11,7 +11,11 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _fa = require("react-icons/fa");
 
+var _KDataTools = _interopRequireDefault(require("./utils/KDataTools"));
+
 require("./styles/toolbar.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -56,14 +60,27 @@ var KToolbar = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, KToolbar);
 
     _this = _super.call(this, props);
+    _this.dataTools = new _KDataTools.default();
     var dir = KToolbar.DIRECTION_HORIZONTAL;
 
     if (props.direction) {
       dir = props.direction;
     }
 
+    var toggledIndex = -1;
+
+    if (_this.props.children) {
+      for (var i = 0; i < _this.props.children.length; i++) {
+        if (_this.props.children[i].props.selected) {
+          if (_this.props.children[i].props.selected == true) {
+            toggledIndex = i;
+          }
+        }
+      }
+    }
+
     _this.state = {
-      toggled: -1,
+      toggled: toggledIndex,
       direction: dir
     };
     _this.onItemToggle = _this.onItemToggle.bind(_assertThisInitialized(_this));
@@ -75,22 +92,6 @@ var KToolbar = /*#__PURE__*/function (_Component) {
 
 
   _createClass(KToolbar, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {//console.log ("componentDidMount ()");
-    }
-    /**
-     * 
-     */
-
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {//console.log ("componentWillUnmount ()");
-    }
-    /**
-     * 
-     */
-
-  }, {
     key: "onItemToggle",
     value: function onItemToggle(e, anIndex) {
       console.log("onItemToggle (" + anIndex + ")");
@@ -139,24 +140,22 @@ var KToolbar = /*#__PURE__*/function (_Component) {
         classes = classes + " " + this.props.classes;
       }
 
-      for (var i = 0; i < this.props.children.length; i++) {
-        if (this.state.toggled == i) {
+      if (this.props.children) {
+        for (var i = 0; i < this.props.children.length; i++) {
+          var toggleValue = "false";
+
+          if (this.state.toggled == i) {
+            toggleValue = "true";
+          }
+
           var refactoredChild = /*#__PURE__*/_react.default.cloneElement(this.props.children[i], {
-            key: "refactored-" + i,
-            onItemToggle: this.onItemToggle,
+            key: this.dataTools.uuidv4(),
+            onItemToggleInternal: this.onItemToggle,
             itemIndex: i,
-            toggled: true
+            toggled: toggleValue
           });
 
           children.push(refactoredChild);
-        } else {
-          var _refactoredChild = /*#__PURE__*/_react.default.cloneElement(this.props.children[i], {
-            key: "refactored-" + i,
-            onItemToggle: this.onItemToggle,
-            itemIndex: i
-          });
-
-          children.push(_refactoredChild);
         }
       }
 
@@ -172,7 +171,9 @@ var KToolbar = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/_react.default.createElement("div", {
         className: classes,
         style: style
-      }, children);
+      }, children, /*#__PURE__*/_react.default.createElement("div", {
+        className: "ktoolbar-padding"
+      }, "\xA0"));
     }
   }]);
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { FaFile, FaFolder, FaFolderOpen, FaChevronDown, FaChevronRight } from 'react-icons/fa';
 
+import KDataTools from './utils/KDataTools';
+
 import './styles/toolbar.css';
 
 /**
@@ -17,32 +19,32 @@ class KToolbar extends Component {
   constructor (props) {
     super (props);
 
+    this.dataTools=new KDataTools ();
+
     let dir=KToolbar.DIRECTION_HORIZONTAL;
 
     if (props.direction) {
       dir=props.direction;
     }
 
+    let toggledIndex=-1;
+
+    if (this.props.children) {
+      for (let i=0;i<this.props.children.length;i++) {
+        if (this.props.children [i].props.selected) {
+          if (this.props.children [i].props.selected==true) {
+            toggledIndex=i;
+          }
+        }
+      }
+    }
+
     this.state = {
-      toggled: -1,
+      toggled: toggledIndex,
       direction: dir
     };
 
     this.onItemToggle=this.onItemToggle.bind(this);
-  }
-
-  /**
-   * 
-   */
-  componentDidMount () {
-    //console.log ("componentDidMount ()");
-  }
-
-  /**
-   * 
-   */
-  componentWillUnmount() {      
-    //console.log ("componentWillUnmount ()");
   }
 
   /**
@@ -91,12 +93,21 @@ class KToolbar extends Component {
       classes=classes + " " + this.props.classes;
     }
 
-    for (let i=0;i<this.props.children.length;i++) {
-      if (this.state.toggled==i) {
-        let refactoredChild=React.cloneElement(this.props.children [i], { key: ("refactored-"+i), onItemToggle: this.onItemToggle, itemIndex: i, toggled: true });
-        children.push(refactoredChild);
-      } else {
-        let refactoredChild=React.cloneElement(this.props.children [i], { key: ("refactored-"+i), onItemToggle: this.onItemToggle, itemIndex: i });
+    if (this.props.children) {
+      for (let i=0;i<this.props.children.length;i++) {
+        let toggleValue="false";
+
+        if (this.state.toggled==i) {
+          toggleValue="true";
+        }
+
+        let refactoredChild=React.cloneElement(this.props.children [i], {
+          key: this.dataTools.uuidv4(), 
+          onItemToggleInternal: this.onItemToggle, 
+          itemIndex: i,
+          toggled: toggleValue 
+        });
+
         children.push(refactoredChild);
       }
     }

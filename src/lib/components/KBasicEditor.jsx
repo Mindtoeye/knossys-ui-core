@@ -11,6 +11,7 @@ import { GrUndo, GrRedo } from 'react-icons/gr';
 import { CgFormatItalic, CgFormatBold, CgFormatHeading, CgLink } from 'react-icons/cg';
 import { BiBold } from 'react-icons/bi';
 import { BsCursorText } from 'react-icons/bs';
+import { MdInvertColors } from 'react-icons/md';
 
 
 import './styles/editable.css';
@@ -33,12 +34,14 @@ class KBasicEditor extends React.Component {
 
     this.state = {
       html: `<p>Hello <b>World</b> !</p><p>Paragraph 2</p>`,
-      editable: true
+      editable: true,
+      inverted: false
     };
 
     this.onEditBold=this.onEditBold.bind(this);
     this.onEditItalic=this.onEditItalic.bind(this);
     this.onEditHeading=this.onEditHeading.bind(this);
+    this.onEditInvert=this.onEditInvert.bind(this);
     this.onEditLink=this.onEditLink.bind(this);
     this.onEditToggle=this.onEditToggle.bind(this);
   }
@@ -90,6 +93,12 @@ class KBasicEditor extends React.Component {
     document.execCommand("formatBlock", false, "h1"); // Send the command to the browser
   }
 
+  onEditInvert (e) {
+    console.log ("onEditLink ()");
+
+    this.setState({ inverted: !this.state.inverted });    
+  }
+
   /**
    * 
    */
@@ -112,16 +121,20 @@ class KBasicEditor extends React.Component {
    * 
    */
   render = () => {
+    let editableclass="keditcontainer";
+    if (this.state.inverted==true) {
+      editableclass="keditcontainer-inverted";
+    }
     return (
       <div className="keditor">
         <KToolbar>        
           <KToolbarItem onClick={(e) => this.onEditBold (e)}><BiBold /></KToolbarItem>        
           <KToolbarItem onClick={(e) => this.onEditItalic (e)}><CgFormatItalic /></KToolbarItem>
           <KToolbarItem onClick={(e) => this.onEditHeading (e)}><CgFormatHeading /></KToolbarItem>
-          <KToolbarItem onClick={(e) => this.onEditLink (e)}><CgLink /></KToolbarItem>                    
+          <KToolbarItem onClick={(e) => this.onEditInvert (e)}><MdInvertColors /></KToolbarItem>                    
           <KToolbarItem onClick={(e) => this.onEditToggle (e)} toggle={true} selected={true}><BsCursorText /></KToolbarItem> 
         </KToolbar>      
-        <div className="keditcontainer">
+        <div className={editableclass}>
           <ContentEditable
             className="keditable"
             tagName="pre"

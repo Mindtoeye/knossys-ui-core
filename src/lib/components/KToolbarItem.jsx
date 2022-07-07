@@ -19,28 +19,18 @@ class KToolbarItem extends Component {
 
     this.onClick=this.onClick.bind(this);
     this.toggle=this.toggle.bind(this);
-    this.select=this.select.bind(this);
-  }
-
-  /**
-   * 
-   */
-  componentDidMount () {
-    //console.log ("componentDidMount ()");
-    this.select ();
   }
 
   /**
    * 
    */
   onClick (e) {
-    console.log ("toggle ()");
+    console.log ("onClick ()");
 
     if (this.toggle ()==true) {
-      if (this.props.onItemToggle) {
-        this.props.onItemToggle(e);
-      }          
-      return;
+      if (this.props.onItemToggleInternal) {
+        this.props.onItemToggleInternal(e, this.props.itemIndex);
+      }
     }
 
     if (this.props.onClick) {
@@ -56,33 +46,12 @@ class KToolbarItem extends Component {
 
     if (this.props.toggle) {
       if (this.props.toggle==true) {
-        if (this.props.onItemToggle) {
-          this.props.onItemToggle (e, this.props.itemIndex);
-        }
         return (true);
       }
     }
 
     return (false);
   }
-
-  /**
-   *
-   */
-  select () {
-    console.log ("select ()");
-
-    if (this.props.selected) {
-      if (this.props.selected==true) {
-        if (this.props.onItemToggle) {
-          this.props.onItemToggle ({}, this.props.itemIndex);
-        }
-        return (true);
-      }
-    }
-
-    return (false);
-  }  
 
   /**
    *
@@ -101,13 +70,13 @@ class KToolbarItem extends Component {
     }
 
     if (this.props.toggled) {
-      if (this.props.toggled==true) {
+      if (this.props.toggled=="true") {
         classes=classes + " ktoolbaritem-toggled";
       }
     }
 
     return (
-      <div className={classes} style={style} onClick={(e) => this.onClick(e)} title={this.props.tooltip}>
+      <div className={classes} style={style} onClick={(e) => this.onClick(e)} alt={this.props.tooltip} title={this.props.tooltip}>
         {this.props.children}
       </div>
     );

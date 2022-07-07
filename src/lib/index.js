@@ -19,6 +19,7 @@ import KToolbar from './components/KToolbar';
 import KToolbarItem from './components/KToolbarItem';
 import KMultiRangeSlider from './components/KMultiRangeSlider';
 import KWaitSpinner from './components/KWaitSpinner';
+import KSessionStorage from './components/KSessionStorage';
 
 export { 
   KnossysInfoPanel, 
@@ -40,5 +41,6 @@ export {
   KToolbar,
   KToolbarItem,
   KMultiRangeSlider,
-  KWaitSpinner
+  KWaitSpinner,
+  KSessionStorage
 };

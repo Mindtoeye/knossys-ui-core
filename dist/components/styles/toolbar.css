@@ -35,6 +35,7 @@
 }
 
 .ktoolbaritem:hover {
+  flex: 0;
   background: #302f2f;
   border: 1px solid #121212;
   color: white;
@@ -68,4 +69,8 @@
 
 .ktoolbaritem-toggled {
   border: 1px solid #8d815f !important;
+}
+
+.ktoolbar-padding {
+  flex: 1;
 }

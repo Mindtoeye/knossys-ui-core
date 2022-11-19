@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import "./styles/slider.css";
 
 /**
- *
+ * https://www.sliderrevolution.com/resources/css-range-slider/
  */
 const KMultiRangeSlider = ({ min, max, onChange }) => {
   const [minVal, setMinVal] = useState(min);
